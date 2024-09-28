@@ -10,6 +10,8 @@
 
 using System.Collections.Concurrent;
 
+using ThingsGateway.NewLife.Extension;
+
 namespace ThingsGateway;
 
 /// <summary>

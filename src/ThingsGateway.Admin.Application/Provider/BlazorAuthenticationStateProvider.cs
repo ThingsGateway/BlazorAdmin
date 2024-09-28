@@ -16,6 +16,7 @@ using System.Security.Claims;
 
 using ThingsGateway.Authorization;
 using ThingsGateway.DataEncryption;
+using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 

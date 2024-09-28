@@ -3,13 +3,14 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 using ThingsGateway.NewLife;
 using ThingsGateway.NewLife.Log;
 using ThingsGateway.NewLife.Reflection;
 using ThingsGateway.NewLife.Threading;
 
-namespace System.Windows.Forms;
+namespace ThingsGateway.NewLife.Windows;
 
 /// <summary>控件助手</summary>
 public static class ControlHelper

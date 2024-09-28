@@ -2,6 +2,8 @@
 using System;
 using System.Windows.Forms;
 
+using ThingsGateway.NewLife.Windows;
+
 namespace ThingsGateway.NewLife.Log;
 
 /// <summary>文本控件输出日志</summary>

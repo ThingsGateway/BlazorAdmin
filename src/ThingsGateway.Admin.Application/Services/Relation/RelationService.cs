@@ -8,9 +8,11 @@
 //  QQ群：605534569
 //------------------------------------------------------------------------------
 
+using ThingsGateway.NewLife.Extension;
+
 namespace ThingsGateway.Admin.Application;
 
-class RelationService : BaseService<SysRelation>, IRelationService
+internal class RelationService : BaseService<SysRelation>, IRelationService
 {
     #region 查询
 

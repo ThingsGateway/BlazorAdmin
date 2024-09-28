@@ -2,9 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-using ThingsGateway.NewLife;
-
-namespace System;
+namespace ThingsGateway.NewLife.Extension;
 
 /// <summary>工具类</summary>
 /// <remarks>

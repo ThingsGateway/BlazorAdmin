@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-namespace System.Threading.Tasks;
+﻿namespace ThingsGateway.NewLife.Extension;
 
 #if NET452
 /// <summary>任务扩展</summary>

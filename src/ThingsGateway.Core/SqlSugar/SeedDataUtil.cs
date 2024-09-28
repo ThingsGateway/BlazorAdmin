@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
+using ThingsGateway.NewLife.Extension;
+
 namespace ThingsGateway;
 /// <summary>
 /// 种子数据工具类

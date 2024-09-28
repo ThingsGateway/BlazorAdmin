@@ -14,10 +14,11 @@ using System.Text.RegularExpressions;
 
 using ThingsGateway.Extension;
 using ThingsGateway.FriendlyException;
+using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class UserCenterService : BaseService<SysUser>, IUserCenterService
+internal class UserCenterService : BaseService<SysUser>, IUserCenterService
 {
     private readonly ISysDictService _configService;
     private readonly IRelationService _relationService;
