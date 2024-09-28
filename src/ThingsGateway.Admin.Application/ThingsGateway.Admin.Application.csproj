@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="$(SolutionDir)Version.props" />
+  <Import Project="$(SolutionDir)PackNuget.props" />
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Rougamo.Fody" Version="4.0.3" />
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
+    <ProjectReference Include="..\ThingsGateway.Core\ThingsGateway.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Locales\*.json" />
+    <EmbeddedResource Include="Locales\*.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="SeedData\Admin\*.json" />
+    <Content Include="SeedData\Admin\*.json" Pack="true" PackagePath="\Content\SeedData\Admin\">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <!--<ItemGroup>
+    <Content Remove="SeedData\Json\*.json" />
+    <Content Include="SeedData\Json\*.json" Pack="true" PackagePath="\SeedData\Json\" >
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <Content Include="Directory.build.targets">
+      <Pack>true</Pack>
+      <PackagePath>Directory.build.targets</PackagePath>
+    </Content>
+  </ItemGroup>
+
+</Project>
