@@ -18,7 +18,7 @@ using ThingsGateway.UnifyResult;
 
 namespace ThingsGateway.Admin.Application;
 
-[AppStartup(1000)]
+[AppStartup(1000000000)]
 public class Startup : AppStartup
 {
     public void ConfigureAdminApp(IServiceCollection services)
