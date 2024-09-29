@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 using System.Runtime.InteropServices;
 using System.Text;
 
+using ThingsGateway.NewLife.Log;
+
 using Console = System.Console;
 
 namespace ThingsGateway.Server;
@@ -31,6 +33,7 @@ public class Program
 
         Console.Write(Environment.NewLine);
         Console.ForegroundColor = ConsoleColor.Yellow;
+        XTrace.WriteLine(string.Empty);
         Console.WriteLine(
             """
 
