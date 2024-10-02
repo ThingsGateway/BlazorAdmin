@@ -75,4 +75,9 @@ public class VerificatInfo : PrimaryIdEntity
     [AutoGenerateColumn(Filterable = true, Sortable = true)]
     public DateTime VerificatTimeout { get; set; }
 
+    /// <summary>
+    /// 登录设备
+    /// </summary>
+    [AutoGenerateColumn(Filterable = true, Sortable = true, Width = 100)]
+    public string Device { get; set; }
 }

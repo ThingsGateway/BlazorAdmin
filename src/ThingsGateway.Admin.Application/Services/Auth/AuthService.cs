@@ -197,6 +197,7 @@ public class AuthService : IAuthService
         var logingEvent = new LoginEvent
         {
             Ip = _appService.RemoteIpAddress?.MapToIPv4()?.ToString(),
+            Device = _appService.ClientInfo.Device.Family,
             Expire = expire,
             SysUser = sysUser,
             VerificatId = verificatId
@@ -312,6 +313,7 @@ public class AuthService : IAuthService
         //生成verificat信息
         var verificatInfo = new VerificatInfo
         {
+            Device = loginEvent.Device,
             Expire = loginEvent.Expire,
             VerificatTimeout = tokenTimeout,
             Id = loginEvent.VerificatId,
@@ -359,4 +361,9 @@ public class LoginEvent
     /// VerificatId
     /// </summary>
     public long VerificatId { get; set; }
+
+    /// <summary>
+    /// 登录设备
+    /// </summary>
+    public string Device { get; set; }
 }

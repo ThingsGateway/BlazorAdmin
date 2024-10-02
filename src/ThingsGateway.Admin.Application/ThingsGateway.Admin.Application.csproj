@@ -4,8 +4,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Rougamo.Fody" Version="4.0.3" />
-    <PackageReference Include="MailKit" Version="4.7.1.1" />
+    <PackageReference Include="Rougamo.Fody" Version="4.0.4" />
+    <PackageReference Include="MailKit" Version="4.8.0" />
     <ProjectReference Include="..\ThingsGateway.Core\ThingsGateway.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
