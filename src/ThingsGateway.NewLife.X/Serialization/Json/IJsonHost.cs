@@ -4,7 +4,7 @@ using ThingsGateway.NewLife.Reflection;
 using ThingsGateway.NewLife.X.Generic;
 
 
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -189,7 +189,7 @@ public static class JsonHelper
             }
         }
 
-        return sb.Put(true);
+        return sb.Return(true);
     }
 
     /// <summary>Json类型对象转换实体类</summary>
@@ -265,7 +265,7 @@ public class FastJson : IJsonHost
     #endregion
 }
 
-#if NET6_0_OR_GREATER
+#if NET5_0_OR_GREATER
 /// <summary>系统级System.Text.Json标准序列化</summary>
 public class SystemJson : IJsonHost
 {
@@ -418,7 +418,7 @@ public class SystemJson : IJsonHost
     #endregion
 
     #region 辅助
-    class MyJsonNamingPolicy : JsonNamingPolicy
+    private class MyJsonNamingPolicy : JsonNamingPolicy
     {
         public override String ConvertName(String name) => name;
     }

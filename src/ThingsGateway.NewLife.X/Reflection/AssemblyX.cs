@@ -130,7 +130,10 @@ public class AssemblyX
                 file = Path.GetDirectoryName(file).CombinePath(name + ".dll");
                 if (File.Exists(file)) return Assembly.LoadFrom(file);
             }
-
+            //取消 Diego
+            //// 辅助解析程序集。程序集加载过程中，被依赖程序集未能解析时，是否协助解析，默认false
+            //if (Setting.Current.AssemblyResolve && !args.Name.IsNullOrEmpty())
+            //    return OnResolve(args.Name);
         }
         catch (Exception ex)
         {
@@ -308,18 +311,29 @@ public class AssemblyX
         // 如果type是null，则返回所有类型
         if (_plugins.TryGetValue(baseType, out var list)) return list;
 
+        Type?[]? types = null;
         list = [];
         try
         {
-            foreach (var item in Asm.GetTypes())
-            {
-                if (item.IsInterface || item.IsAbstract || item.IsGenericType) continue;
-                if (item != baseType && item.As(baseType)) list.Add(item);
-            }
+            types = Asm.GetTypes();
+        }
+        catch (ReflectionTypeLoadException ex)
+        {
+            // 即使抛出加载异常，也有一部分类型可以用
+            types = ex.Types;
+            XTrace.WriteException(ex);
         }
         catch (Exception ex)
         {
             XTrace.WriteException(ex);
+        }
+
+        if (types != null)
+        {
+            foreach (var item in types)
+            {
+                if (item != null && !item.IsInterface && !item.IsAbstract && !item.IsGenericType && item != baseType && item.As(baseType)) list.Add(item);
+            }
         }
 
         _plugins.TryAdd(baseType, list);
@@ -542,6 +556,18 @@ public class AssemblyX
                 var basedir = AppDomain.CurrentDomain.BaseDirectory;
                 if (!basedir.IsNullOrEmpty()) set.Add(basedir);
 
+                //取消 Diego
+
+                //var cfg = Setting.Current;
+                //if (!cfg.PluginPath.IsNullOrEmpty())
+                //{
+                //    var plugin = cfg.PluginPath.GetFullPath();
+                //    if (!set.Contains(plugin)) set.Add(plugin);
+
+                //    plugin = cfg.PluginPath.GetBasePath();
+                //    if (!set.Contains(plugin)) set.Add(plugin);
+                //}
+
                 _AssemblyPaths = set;
             }
             return _AssemblyPaths;
@@ -679,7 +705,48 @@ public class AssemblyX
         return list;
     }
 
+    /// <summary>在对程序集的解析失败时发生</summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    private static Assembly? OnResolve(String name)
+    {
+        foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
+        {
+            if (item.FullName == name) return item;
+        }
 
+        // 支持加载不同版本
+        var p = name.IndexOf(',');
+        if (p > 0)
+        {
+            name = name[..p];
+            foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (item.GetName().Name == name) return item;
+            }
+
+            // 查找文件并加载
+            foreach (var item in AssemblyPaths)
+            {
+                var file = item.CombinePath(name + ".dll");
+                if (File.Exists(file))
+                {
+                    try
+                    {
+                        var asm = Assembly.LoadFrom(file);
+                        //var asm = Assembly.Load(File.ReadAllBytes(file));
+                        if (asm != null && asm.GetName().Name == name) return asm;
+                    }
+                    catch (Exception ex)
+                    {
+                        XTrace.WriteException(ex);
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
     #endregion
 
     #region 重载

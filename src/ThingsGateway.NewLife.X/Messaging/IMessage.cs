@@ -4,7 +4,7 @@ using ThingsGateway.NewLife.Reflection;
 namespace ThingsGateway.NewLife.Messaging;
 
 /// <summary>消息命令</summary>
-public interface IMessage
+public interface IMessage : IDisposable
 {
     /// <summary>是否响应</summary>
     Boolean Reply { get; }
@@ -16,7 +16,7 @@ public interface IMessage
     Boolean OneWay { get; }
 
     /// <summary>负载数据</summary>
-    Packet? Payload { get; set; }
+    IPacket? Payload { get; set; }
 
     /// <summary>根据请求创建配对的响应消息</summary>
     /// <returns></returns>
@@ -25,11 +25,11 @@ public interface IMessage
     /// <summary>从数据包中读取消息</summary>
     /// <param name="pk"></param>
     /// <returns>是否成功</returns>
-    Boolean Read(Packet pk);
+    Boolean Read(IPacket pk);
 
     /// <summary>把消息转为封包</summary>
     /// <returns></returns>
-    Packet? ToPacket();
+    IPacket? ToPacket();
 }
 
 /// <summary>消息命令基类</summary>
@@ -45,7 +45,12 @@ public class Message : IMessage
     public Boolean OneWay { get; set; }
 
     /// <summary>负载数据</summary>
-    public Packet? Payload { get; set; }
+    public IPacket? Payload { get; set; }
+
+    #region 构造
+    /// <summary>销毁。回收数据包到内存池</summary>
+    public void Dispose() => Payload.TryDispose();
+    #endregion
 
     /// <summary>根据请求创建配对的响应消息</summary>
     /// <returns></returns>
@@ -64,7 +69,7 @@ public class Message : IMessage
     /// <summary>从数据包中读取消息</summary>
     /// <param name="pk"></param>
     /// <returns>是否成功</returns>
-    public virtual Boolean Read(Packet pk)
+    public virtual Boolean Read(IPacket pk)
     {
         Payload = pk;
 
@@ -73,5 +78,5 @@ public class Message : IMessage
 
     /// <summary>把消息转为封包</summary>
     /// <returns></returns>
-    public virtual Packet? ToPacket() => Payload;
+    public virtual IPacket? ToPacket() => Payload;
 }

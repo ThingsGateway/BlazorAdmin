@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Data;
+﻿namespace ThingsGateway.NewLife.Data;
 
 /// <summary>
 /// 时序点，用于时序数据计算

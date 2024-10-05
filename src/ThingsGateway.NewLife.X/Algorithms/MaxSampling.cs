@@ -1,6 +1,4 @@
-﻿using System;
-
-using ThingsGateway.NewLife.Data;
+﻿using ThingsGateway.NewLife.Data;
 
 namespace ThingsGateway.NewLife.Algorithms
 {

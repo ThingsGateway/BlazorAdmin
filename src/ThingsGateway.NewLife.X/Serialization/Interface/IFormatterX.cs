@@ -122,16 +122,18 @@ public abstract class FormatterBase //: IFormatterX
         ms.Position = start;
 
         var buf = new Byte[pos - start];
-        ms.Read(buf, 0, buf.Length);
+        ms.ReadExactly(buf, 0, buf.Length);
         return buf;
     }
 
     /// <summary>获取流里面的数据包</summary>
     /// <returns></returns>
-    public Packet GetPacket()
+    public IPacket GetPacket()
     {
         Stream.Position = 0;
-        return new(Stream);
+
+        // 包装为数据包，直接窃取内存流内部的缓冲区
+        return new ArrayPacket(Stream);
     }
     #endregion
 

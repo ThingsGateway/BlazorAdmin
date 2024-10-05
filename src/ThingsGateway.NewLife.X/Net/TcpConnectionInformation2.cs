@@ -3,8 +3,6 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 
-using ThingsGateway.NewLife.Log;
-
 namespace ThingsGateway.NewLife.Net;
 
 /// <summary>Tcp连接信息</summary>
@@ -101,11 +99,6 @@ public class TcpConnectionInformation2 : TcpConnectionInformation
         Int32 ipVersion,
         TCP_TABLE_CLASS tblClass,
         Int32 reserved);
-
-    /// <summary>获取所有Tcp连接</summary>
-    /// <returns></returns>
-    [Obsolete("=>GetWindowsTcpConnections")]
-    public static TcpConnectionInformation2[] GetAllTcpConnections() => GetWindowsTcpConnections();
 
     /// <summary>获取所有Tcp连接</summary>
     /// <returns></returns>

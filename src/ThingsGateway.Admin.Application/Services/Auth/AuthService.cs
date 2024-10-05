@@ -197,7 +197,7 @@ public class AuthService : IAuthService
         var logingEvent = new LoginEvent
         {
             Ip = _appService.RemoteIpAddress?.MapToIPv4()?.ToString(),
-            Device = _appService.ClientInfo.Device.Family,
+            Device = input.Device?.ToString(),
             Expire = expire,
             SysUser = sysUser,
             VerificatId = verificatId

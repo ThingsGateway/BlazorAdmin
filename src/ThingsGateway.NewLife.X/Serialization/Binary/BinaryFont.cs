@@ -1,4 +1,4 @@
-﻿#if WIN
+﻿#if __WIN__
 using System;
 using System.Drawing;
 

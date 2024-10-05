@@ -1,7 +1,5 @@
 ﻿using System.Text;
 
-using ThingsGateway.NewLife.Collections;
-
 namespace ThingsGateway.NewLife.Common;
 
 /// <summary>汉字拼音转换类</summary>

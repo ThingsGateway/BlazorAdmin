@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace ThingsGateway.NewLife.Collections
+﻿namespace ThingsGateway.NewLife.Collections
 {
     /// <summary>集群管理</summary>
     /// <typeparam name="TKey"></typeparam>

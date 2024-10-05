@@ -42,13 +42,15 @@ public static class AccessorHelper
     /// <param name="accessor">访问器</param>
     /// <param name="context">上下文</param>
     /// <returns></returns>
-    public static Packet ToPacket(this IAccessor accessor, Object? context = null)
+    public static IPacket ToPacket(this IAccessor accessor, Object? context = null)
     {
-        var ms = new MemoryStream();
+        var ms = new MemoryStream { Position = 8 };
         accessor.Write(ms, context);
 
-        ms.Position = 0;
-        return new Packet(ms);
+        ms.Position = 8;
+
+        // 包装为数据包，直接窃取内存流内部的缓冲区
+        return new ArrayPacket(ms);
     }
 
     /// <summary>通过访问器读取</summary>
@@ -56,7 +58,7 @@ public static class AccessorHelper
     /// <param name="pk"></param>
     /// <param name="context">上下文</param>
     /// <returns></returns>
-    public static Object? AccessorRead(this Type type, Packet pk, Object? context = null)
+    public static Object? AccessorRead(this Type type, IPacket pk, Object? context = null)
     {
         var obj = type.CreateInstance();
         if (obj is IAccessor accessor)
@@ -70,7 +72,7 @@ public static class AccessorHelper
     /// <param name="pk"></param>
     /// <param name="context"></param>
     /// <returns></returns>
-    public static T ToEntity<T>(this Packet pk, Object? context = null) where T : IAccessor, new()
+    public static T ToEntity<T>(this IPacket pk, Object? context = null) where T : IAccessor, new()
     {
         //if (!typeof(T).As<IAccessor>()) return default(T);
 

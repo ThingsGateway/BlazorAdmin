@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Reflection
+﻿namespace ThingsGateway.NewLife.Reflection
 {
     /// <summary>
     /// 索引器接访问口。

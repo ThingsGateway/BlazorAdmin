@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Security
+﻿namespace ThingsGateway.NewLife.Security
 {
     /// <summary>ASN.1标签</summary>
     [Flags]

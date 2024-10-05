@@ -183,7 +183,7 @@ public static class IOHelper
     public static Byte[] ReadArray(this Stream des)
     {
         var len = des.ReadEncodedInt();
-        if (len <= 0) return new Byte[0];
+        if (len <= 0) return [];
 
         // 避免数据错乱超长
         //if (des.CanSeek && len > des.Length - des.Position) len = (Int32)(des.Length - des.Position);
@@ -192,7 +192,8 @@ public static class IOHelper
         if (len > MaxSafeArraySize) throw new XException("Security required, reading large variable length arrays is not allowed {0:n0}>{1:n0}", len, MaxSafeArraySize);
 
         var buf = new Byte[len];
-        des.Read(buf, 0, buf.Length);
+        des.ReadExactly(buf, 0, buf.Length);
+
         return buf;
     }
 
@@ -213,9 +214,9 @@ public static class IOHelper
     /// <returns></returns>
     public static DateTime ReadDateTime(this Stream stream)
     {
-        var buf = new Byte[4];
-        stream.Read(buf, 0, 4);
-        var seconds = (Int32)buf.ToUInt32();
+        _encodes ??= new Byte[16];
+        stream.ReadExactly(_encodes, 0, 4);
+        var seconds = (Int32)_encodes.ToUInt32();
 
         return seconds.ToDateTime();
     }
@@ -227,7 +228,7 @@ public static class IOHelper
     /// <returns>返回复制的总字节数</returns>
     public static Byte[] ReadBytes(this Byte[] src, Int32 offset, Int32 count)
     {
-        if (count == 0) return new Byte[0];
+        if (count == 0) return [];
 
         // 即使是全部，也要复制一份，而不只是返回原数组，因为可能就是为了复制数组
         if (count < 0) count = src.Length - offset;
@@ -255,6 +256,33 @@ public static class IOHelper
     #endregion
 
     #region 数据流转换
+#if !NET7_0_OR_GREATER
+    /// <summary>从流中完全读取数据，直到指定大小或者到达流结束</summary>
+    /// <remarks>
+    /// 主要为了对抗net6开始对Stream.Read的微调。
+    /// https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/partial-byte-reads-in-streams
+    /// </remarks>
+    /// <param name="stream"></param>
+    /// <param name="buffer"></param>
+    /// <param name="offset"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public static Int32 ReadExactly(this Stream stream, Byte[] buffer, Int32 offset, Int32 count)
+    {
+        //if (count < 0) count = buffer.Length - offset;
+
+        var totalRead = 0;
+        while (totalRead < count)
+        {
+            var bytesRead = stream.Read(buffer, offset + totalRead, count - totalRead);
+            if (bytesRead == 0) break;
+            totalRead += bytesRead;
+        }
+
+        return totalRead;
+    }
+#endif
+
     /// <summary>数据流转为字节数组</summary>
     /// <remarks>
     /// 针对MemoryStream进行优化。内存流的Read实现是一个个字节复制，而ToArray是调用内部内存复制方法
@@ -267,7 +295,7 @@ public static class IOHelper
     public static Byte[] ReadBytes(this Stream stream, Int64 length)
     {
         //if (stream == null) return null;
-        if (length == 0) return new Byte[0];
+        if (length == 0) return [];
 
         if (length > 0 && stream.CanSeek && stream.Length - stream.Position < length)
             throw new XException("Unable to read {1} bytes of data from a data stream with a length of only {0}", stream.Length - stream.Position, length);
@@ -277,15 +305,8 @@ public static class IOHelper
         {
             //!!! Stream.Read 的官方设计从未承诺填满缓冲区，需要用户自己多次读取
             // https://docs.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/partial-byte-reads-in-streams
-            var p = 0;
             var buf = new Byte[length];
-            while (true)
-            {
-                var n = stream.Read(buf, p, buf.Length - p);
-                if (n == 0 || p + n == buf.Length) break;
-
-                p += n;
-            }
+            stream.ReadExactly(buf, 0, buf.Length);
             return buf;
         }
 
@@ -296,7 +317,7 @@ public static class IOHelper
             length = (Int32)(stream.Length - stream.Position);
 
             var buf = new Byte[length];
-            stream.Read(buf, 0, buf.Length);
+            stream.ReadExactly(buf, 0, buf.Length);
             return buf;
         }
 
@@ -304,7 +325,7 @@ public static class IOHelper
         var ms = Pool.MemoryStream.Get();
         stream.CopyTo(ms);
 
-        return ms.Put(true);
+        return ms.Return(true);
     }
 
     /// <summary>流转换为字符串</summary>
@@ -904,7 +925,7 @@ public static class IOHelper
             sb.Append(GetHexValue(b & 0x0F));
         }
 
-        return sb.Put(true) ?? String.Empty;
+        return sb.Return(true) ?? String.Empty;
     }
 
     /// <summary>1个字节转为2个16进制字符</summary>
@@ -931,7 +952,7 @@ public static class IOHelper
     /// <returns></returns>
     public static Byte[] ToHex(this String? data, Int32 startIndex = 0, Int32 length = -1)
     {
-        if (data.IsNullOrEmpty()) return new Byte[0];
+        if (data.IsNullOrEmpty()) return [];
 
         // 过滤特殊字符
         data = data.Trim()
@@ -991,7 +1012,7 @@ public static class IOHelper
     /// <returns></returns>
     public static Byte[] ToBase64(this String? data)
     {
-        if (data.IsNullOrWhiteSpace()) return new Byte[0];
+        if (data.IsNullOrWhiteSpace()) return [];
 
         data = data.Trim();
         if (data[^1] != '=')

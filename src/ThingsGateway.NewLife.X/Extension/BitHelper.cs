@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife
+﻿namespace ThingsGateway.NewLife
 {
     /// <summary>数据位助手</summary>
     public static class BitHelper

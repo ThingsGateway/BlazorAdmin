@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Data
+﻿namespace ThingsGateway.NewLife.Data
 {
     /// <summary>地理区域</summary>
     public class GeoArea

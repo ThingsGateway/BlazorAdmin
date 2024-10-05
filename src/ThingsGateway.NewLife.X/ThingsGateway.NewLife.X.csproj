@@ -10,6 +10,7 @@
     <RootNamespace>ThingsGateway.NewLife</RootNamespace>
     <AssemblyTitle>工具核心库</AssemblyTitle>
     <Description>ThingsGateway.NewLife.X</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
   </PropertyGroup>
 
@@ -34,10 +35,14 @@
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" IsImplicitlyDefined="true" TargetingPackVersion="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+  </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net452' or '$(TargetFramework)'=='net462'">
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
-
+  
   <ItemGroup Condition="'$(TargetFramework)'=='net452' or '$(TargetFramework)'=='net462'">
     <Using Include="System.Net.Http" />
     <Reference Include="Microsoft.VisualBasic" />

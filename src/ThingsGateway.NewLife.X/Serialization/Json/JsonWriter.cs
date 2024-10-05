@@ -26,30 +26,16 @@ public class JsonWriter
     /// <summary>使用小写名称</summary>
     public Boolean LowerCase { get; set; }
 
-    /// <summary>使用驼峰命名</summary>
-    [Obsolete("=>Options")]
-    public Boolean CamelCase { get => Options.CamelCase; set => Options.CamelCase = value; }
-
-    /// <summary>忽略空值。默认false</summary>
-    [Obsolete("=>Options")]
-    public Boolean IgnoreNullValues { get => Options.IgnoreNullValues; set => Options.IgnoreNullValues = value; }
-
     /// <summary>忽略只读属性。默认false</summary>
     public Boolean IgnoreReadOnlyProperties { get; set; }
 
     /// <summary>忽略注释。默认true</summary>
     public Boolean IgnoreComment { get; set; } = true;
 
-    /// <summary>忽略循环引用。遇到循环引用时写{}，默认false</summary>
-    [Obsolete("=>Options")]
-    public Boolean IgnoreCycles => Options.IgnoreCycles;
 
     /// <summary>枚举使用字符串。默认false使用数字</summary>
     public Boolean EnumString { get; set; }
 
-    /// <summary>缩进。默认false</summary>
-    [Obsolete("=>Options")]
-    public Boolean Indented { get => Options.WriteIndented; set => Options.WriteIndented = value; }
 
     ///// <summary>智能缩进，内层不换行。默认false</summary>
     //public Boolean SmartIndented { get; set; }
@@ -198,8 +184,8 @@ public class JsonWriter
             else
                 WriteStringFast(Convert.ToBase64String(buf, 0, buf.Length, Base64FormattingOptions.None));
         }
-        else if (obj is Packet pk)
-            WriteStringFast(ByteArrayAsHex ? pk.ToHex(-1) : pk.ToBase64());
+        else if (obj is IPacket pk)
+            WriteStringFast(ByteArrayAsHex ? pk.ToHex(-1) : pk.ToArray().ToBase64());
         else if (obj is StringDictionary dictionary2)
             WriteSD(dictionary2);
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ThingsGateway.NewLife.Security;
+﻿namespace ThingsGateway.NewLife.Security;
 
 /// <summary>CRC16校验</summary>
 public sealed class Crc16

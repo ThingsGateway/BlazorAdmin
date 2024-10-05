@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Security
+﻿namespace ThingsGateway.NewLife.Security
 {
     /// <summary>RC4对称加密算法</summary>
     /// <remarks>

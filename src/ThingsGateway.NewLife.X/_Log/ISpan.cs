@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Web.Script.Serialization;
@@ -199,7 +198,7 @@ public class DefaultSpan : ISpan
         sb.Append(_pid);
 
         //return _myip + DateTime.UtcNow.ToLong() + Interlocked.Increment(ref _seq) + "e" + _pid;
-        return sb.Put(true);
+        return sb.Return(true);
     }
 
     /// <summary>完成跟踪</summary>
@@ -260,15 +259,16 @@ public class DefaultSpan : ISpan
             Tag = str.Cut(len);
         else if (tag is StringBuilder builder)
             Tag = builder.Length <= len ? builder.ToString() : builder.ToString(0, len);
-        else if (tag is Packet pk)
+        else if (tag is IPacket pk)
         {
             // 头尾是Xml/Json时，使用字符串格式
-            if (pk.Total >= 2 && (pk[0] == '{' || pk[0] == '<' || pk[pk.Total - 1] == '}' || pk[pk.Total - 1] == '>'))
+            var total = pk.Total;
+            if (total >= 2 && (pk[0] == '{' || pk[0] == '<' || pk[total - 1] == '}' || pk[total - 1] == '>'))
                 Tag = pk.ToStr(null, 0, len);
             else
                 Tag = pk.ToHex(len / 2);
 
-            if (Value == 0) Value = pk.Total;
+            if (Value == 0) Value = total;
         }
         else
             Tag = tag.ToJson().Cut(len);
@@ -351,7 +351,7 @@ public static class SpanExtension
     [return: NotNullIfNotNull(nameof(args))]
     public static Object? Attach(this ISpan span, Object? args)
     {
-        if (span == null || args == null || args is Packet || args is Byte[] || args is IAccessor) return args;
+        if (span == null || args == null || args is IPacket || args is Byte[] || args is IAccessor) return args;
 
         var type = args.GetType();
         if (type.IsArray || type.IsValueType || type == typeof(String)) return args;

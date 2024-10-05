@@ -1,9 +1,10 @@
 ﻿using System.Collections.Concurrent;
+
 using ThingsGateway.NewLife.Collections;
 using ThingsGateway.NewLife.Reflection;
 using ThingsGateway.NewLife.Serialization;
 using ThingsGateway.NewLife.Data;
-using System.Collections.Generic;
+
 using System.Collections;
 
 

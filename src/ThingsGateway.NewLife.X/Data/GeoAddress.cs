@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Data
+﻿namespace ThingsGateway.NewLife.Data
 {
     /// <summary>地理地址</summary>
     public class GeoAddress

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Algorithms
+﻿namespace ThingsGateway.NewLife.Algorithms
 {
     /// <summary>
     /// 双线性插值

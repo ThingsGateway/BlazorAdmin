@@ -1,6 +1,4 @@
-﻿using System;
-
-using ThingsGateway.NewLife.Data;
+﻿using ThingsGateway.NewLife.Data;
 using ThingsGateway.NewLife.Model;
 
 namespace ThingsGateway.NewLife.Serialization
@@ -26,7 +24,7 @@ namespace ThingsGateway.NewLife.Serialization
         /// <param name="context"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        public override Object? Read(IHandlerContext context, Object message)
+        public override Object Read(IHandlerContext context, Object message)
         {
             if (message is Packet pk) return Binary.FastRead<T>(pk.GetStream(), EncodedInt);
 

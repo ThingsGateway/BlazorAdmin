@@ -6,6 +6,7 @@ using ThingsGateway.NewLife.Reflection;
 
 namespace ThingsGateway.NewLife.Security;
 
+
 /// <summary>随机数</summary>
 public static class Rand
 {
@@ -126,7 +127,7 @@ public static class Rand
             sb.Append(ch);
         }
 
-        return sb.Put(true);
+        return sb.Return(true);
     }
 
     /// <summary>随机填充指定对象的属性。可用于构造随机数据进行测试</summary>

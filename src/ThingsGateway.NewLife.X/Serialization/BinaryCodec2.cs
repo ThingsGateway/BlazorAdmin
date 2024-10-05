@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using ThingsGateway.NewLife.Data;
+﻿using ThingsGateway.NewLife.Data;
 using ThingsGateway.NewLife.Model;
 
 namespace ThingsGateway.NewLife.Serialization

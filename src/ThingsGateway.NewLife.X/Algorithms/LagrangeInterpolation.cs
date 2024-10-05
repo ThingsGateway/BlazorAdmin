@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Algorithms
+﻿namespace ThingsGateway.NewLife.Algorithms
 {
     /// <summary>
     /// 拉格朗日插值

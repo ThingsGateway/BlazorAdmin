@@ -47,6 +47,9 @@ public partial class Login
 
     [Inject]
     [NotNull]
+    private IAppService? AppService { get; set; }
+    [Inject]
+    [NotNull]
     private IOptions<WebsiteOptions>? WebsiteOption { get; set; }
 
     protected override Task OnInitializedAsync()
@@ -59,6 +62,7 @@ public partial class Login
     {
         var model = loginModel.Adapt<LoginInput>();
         model.Password = DESCEncryption.Encrypt(model.Password);
+        model.Device = AppService.ClientInfo.Device.Family;
 
         try
         {

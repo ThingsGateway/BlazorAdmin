@@ -111,7 +111,7 @@ public class Json : FormatterBase, IJson
         var sb = Pool.StringBuilder.Get();
         Write(sb, value);
 
-        Stream.Write(sb.Put(true).GetBytes());
+        Stream.Write(sb.Return(true).GetBytes());
 
         return true;
     }

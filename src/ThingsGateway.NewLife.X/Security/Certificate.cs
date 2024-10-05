@@ -1,8 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
-using RuntimeHelpers = System.Runtime.CompilerServices.RuntimeHelpers;
 using SecureString = System.Security.SecureString;
 
 namespace ThingsGateway.NewLife.Security

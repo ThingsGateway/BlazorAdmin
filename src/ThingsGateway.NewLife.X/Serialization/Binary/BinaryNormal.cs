@@ -1,6 +1,7 @@
 ﻿using System.Net;
 
 using ThingsGateway.NewLife.Data;
+using ThingsGateway.NewLife.Reflection;
 
 namespace ThingsGateway.NewLife.Serialization;
 
@@ -33,10 +34,9 @@ public class BinaryNormal : BinaryHandlerBase
 
             return true;
         }
-        else if (type == typeof(Packet))
+        else if (type == typeof(IPacket) || type.As<IPacket>())
         {
-            //var bn = Host as Binary;
-            if (value is Packet pk)
+            if (value is IPacket pk)
             {
                 Host.WriteSize(pk.Total);
                 pk.CopyTo(Host.Stream);
@@ -118,6 +118,12 @@ public class BinaryNormal : BinaryHandlerBase
         else if (type == typeof(Byte[]))
         {
             value = ReadBytes(-1);
+            return true;
+        }
+        else if (type == typeof(IPacket))
+        {
+            var buf = ReadBytes(-1);
+            value = new ArrayPacket(buf);
             return true;
         }
         else if (type == typeof(Packet))

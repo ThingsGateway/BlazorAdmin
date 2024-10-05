@@ -50,4 +50,10 @@ public class LoginInput : ILoginInput
     ///<example>111111</example>
     [Required]
     public string Password { get; set; }
+
+    /// <summary>
+    /// 设备类型，默认PC
+    /// </summary>
+    /// <example>0</example>
+    public string Device { get; set; } = "PC";
 }

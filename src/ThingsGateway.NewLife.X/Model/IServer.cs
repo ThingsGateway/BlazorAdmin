@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ThingsGateway.NewLife.Model;
+﻿namespace ThingsGateway.NewLife.Model;
 
 /// <summary>服务接口。</summary>
 /// <remarks>服务代理XAgent可以附加代理实现了IServer接口的服务。</remarks>

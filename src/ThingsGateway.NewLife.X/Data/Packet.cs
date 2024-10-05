@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
 using System.Text;
 
 using ThingsGateway.NewLife.Collections;
@@ -11,7 +12,7 @@ namespace ThingsGateway.NewLife.Data;
 /// 设计于.NET2.0时代，功能上类似于NETCore的Span/Memory。
 /// Packet的设计目标就是网络库零拷贝，所以Slice切片是其最重要功能。
 /// </remarks>
-public class Packet
+public class Packet : IPacket
 {
     #region 属性
     /// <summary>数据</summary>
@@ -23,11 +24,15 @@ public class Packet
     /// <summary>长度</summary>
     public Int32 Count { get; private set; }
 
+    Int32 IPacket.Length => Count;
+
     /// <summary>下一个链式包</summary>
     public Packet? Next { get; set; }
 
     /// <summary>总长度</summary>
     public Int32 Total => Count + (Next != null ? Next.Total : 0);
+
+    IPacket? IPacket.Next { get => Next; set => Next = (value as Packet) ?? throw new InvalidDataException(); }
     #endregion
 
     #region 构造
@@ -81,6 +86,24 @@ public class Packet
 
         // 必须确保数据流位置不变
         if (count > 0) stream.Seek(-count, SeekOrigin.Current);
+    }
+
+    /// <summary>从Span实例化</summary>
+    /// <param name="span"></param>
+    public Packet(Span<Byte> span) => Set(span.ToArray());
+
+    /// <summary>从Memory实例化</summary>
+    /// <param name="memory"></param>
+    public Packet(Memory<Byte> memory)
+    {
+        if (MemoryMarshal.TryGetArray<Byte>(memory, out var segment))
+        {
+            Set(segment.Array!, segment.Offset, segment.Count);
+        }
+        else
+        {
+            Set(memory.ToArray());
+        }
     }
     #endregion
 
@@ -188,6 +211,8 @@ public class Packet
         }
     }
 
+    IPacket IPacket.Slice(Int32 offset, Int32 count) => Slice(offset, count);
+
     /// <summary>查找目标数组</summary>
     /// <param name="data">目标数组</param>
     /// <param name="offset">本数组起始偏移</param>
@@ -266,13 +291,13 @@ public class Packet
     {
         //if (Offset == 0 && (Count < 0 || Offset + Count == Data.Length) && Next == null) return Data;
 
-        if (Next == null) Data.ReadBytes(Offset, Count);
+        if (Next == null) return Data.ReadBytes(Offset, Count);
 
         // 链式包输出
         var ms = Pool.MemoryStream.Get();
         CopyTo(ms);
 
-        return ms.Put(true);
+        return ms.Return(true);
     }
 
     /// <summary>从封包中读取指定数据区，读取全部时直接返回缓冲区，以提升性能</summary>
@@ -318,7 +343,7 @@ public class Packet
 
             cur = cur.Next;
         }
-        return ms.Put(true);
+        return ms.Return(true);
 
         //// 以上算法太复杂，直接来
         //return ToArray().ReadBytes(offset, count);
@@ -348,7 +373,6 @@ public class Packet
         return list;
     }
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP
     /// <summary>转为Span</summary>
     /// <returns></returns>
     public Span<Byte> AsSpan()
@@ -366,7 +390,9 @@ public class Packet
 
         return new Memory<Byte>(ToArray());
     }
-#endif
+
+    Span<Byte> IPacket.GetSpan() => AsSpan();
+    Memory<Byte> IPacket.GetMemory() => AsMemory();
 
     /// <summary>获取封包的数据流形式</summary>
     /// <returns></returns>
@@ -434,7 +460,23 @@ public class Packet
         var ms = Pool.MemoryStream.Get();
         CopyTo(ms);
 
-        return new Packet(ms.Put(true));
+        return new Packet(ms.Return(true));
+    }
+
+    /// <summary>尝试获取缓冲区</summary>
+    /// <param name="segment"></param>
+    /// <returns></returns>
+    public Boolean TryGetArray(out ArraySegment<Byte> segment)
+    {
+        if (Next == null)
+        {
+            segment = new ArraySegment<Byte>(Data, Offset, Count);
+            return true;
+        }
+
+        segment = default;
+
+        return false;
     }
 
     /// <summary>以字符串表示</summary>

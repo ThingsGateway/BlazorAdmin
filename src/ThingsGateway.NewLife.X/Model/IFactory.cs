@@ -1,6 +1,4 @@
-﻿using System;
-
-using ThingsGateway.NewLife.Reflection;
+﻿using ThingsGateway.NewLife.Reflection;
 
 namespace ThingsGateway.NewLife.Model
 {

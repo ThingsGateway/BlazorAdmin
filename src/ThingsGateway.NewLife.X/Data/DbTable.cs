@@ -296,9 +296,9 @@ public class DbTable : IEnumerable<DbRow>, ICloneable, IAccessor
     /// <summary>读取</summary>
     /// <param name="pk"></param>
     /// <returns></returns>
-    public Boolean Read(Packet pk)
+    public Boolean Read(IPacket pk)
     {
-        if (pk == null || pk.Total == 0) return false;
+        if (pk == null || pk.Length == 0) return false;
 
         Read(pk.GetStream());
 
@@ -414,8 +414,10 @@ public class DbTable : IEnumerable<DbRow>, ICloneable, IAccessor
 
     /// <summary>转数据包</summary>
     /// <returns></returns>
-    public Packet ToPacket()
+    public IPacket ToPacket()
     {
+        // 不确定所需大小，只能使用内存流，再包装为数据包。
+        // 头部预留8个字节，方便网络传输时添加协议头。
         var ms = new MemoryStream
         {
             Position = 8
@@ -424,7 +426,9 @@ public class DbTable : IEnumerable<DbRow>, ICloneable, IAccessor
         Write(ms);
 
         ms.Position = 8;
-        return new Packet(ms);
+
+        // 包装为数据包，直接窃取内存流内部的缓冲区
+        return new ArrayPacket(ms);
     }
 
     /// <summary>保存到文件</summary>

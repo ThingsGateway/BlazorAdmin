@@ -8,7 +8,6 @@ using ThingsGateway.NewLife.Reflection;
 using ThingsGateway.NewLife.Serialization;
 using ThingsGateway.NewLife.Threading;
 
-
 namespace ThingsGateway.NewLife.Caching;
 
 /// <summary>缓存键事件参数</summary>
@@ -18,7 +17,7 @@ public class KeyEventArgs : CancelEventArgs
     public String Key { get; set; } = null!;
 }
 
-/// <summary>默认字典缓存</summary>
+/// <summary>内存缓存。并行字典实现，峰值性能10亿ops</summary>
 public class MemoryCache : Cache
 {
     #region 属性
@@ -44,8 +43,6 @@ public class MemoryCache : Cache
     /// <summary>实例化一个内存字典缓存</summary>
     public MemoryCache()
     {
-        Expire = 3600;
-
         Name = GetType().Name.TrimEnd("Cache");
 
         Init(null);
@@ -71,14 +68,14 @@ public class MemoryCache : Cache
     public override ICollection<String> Keys => _cache.Keys;
     #endregion
 
-   #region 方法
+    #region 方法
+
 
 #if !NET452
 
     /// <summary>返回全部</summary>
     public IReadOnlyDictionary< string, CacheItem> GetAll() => _cache;
 #endif
-
     /// <summary>初始化配置</summary>
     /// <param name="config"></param>
     public override void Init(String? config)
@@ -105,7 +102,7 @@ public class MemoryCache : Cache
         {
             if (_cache.TryGetValue(key, out item) && item != null)
             {
-                if (!item.Expired) return (T?)item.Visit();
+                if (!item.Expired) return item.Visit<T>();
 
                 item.Set(value, expire);
 
@@ -117,9 +114,9 @@ public class MemoryCache : Cache
 
         Interlocked.Increment(ref _count);
 
-        return (T?)item.Visit();
+        return item.Visit<T>();
     }
-#endregion
+    #endregion
 
     #region 基本操作
     /// <summary>是否包含缓存项</summary>
@@ -173,10 +170,24 @@ public class MemoryCache : Cache
     {
         if (!_cache.TryGetValue(key, out var item) || item == null || item.Expired) return default;
 
-        var rs = item.Visit();
-        if (rs == null) return default;
+        return item.Visit<T>();
+    }
 
-        return rs.ChangeType<T>();
+    /// <summary>移除缓存项</summary>
+    /// <param name="key">键</param>
+    /// <returns>实际移除个数</returns>
+    public override Int32 Remove(String key)
+    {
+        var count = 0;
+
+        if (_cache.TryRemove(key, out _))
+        {
+            count++;
+
+            Interlocked.Decrement(ref _count);
+        }
+
+        return count;
     }
 
     /// <summary>批量移除缓存项</summary>
@@ -212,7 +223,7 @@ public class MemoryCache : Cache
     {
         if (!_cache.TryGetValue(key, out var item) || item == null) return false;
 
-        item.Set(item.Value, expire);
+        item.SetExpire(expire);
 
         return true;
     }
@@ -274,7 +285,7 @@ public class MemoryCache : Cache
         {
             if (_cache.TryGetValue(key, out item) && item != null)
             {
-                var rs = item.Value;
+                var rs = item.Visit<T>();
                 // 如果已经过期，不要返回旧值
                 if (item.Expired) rs = default(T);
 
@@ -307,7 +318,7 @@ public class MemoryCache : Cache
         if (!_cache.TryGetValue(key, out var item) || item == null) return false;
 
         // 得到已有值
-        value = item.Visit().ChangeType<T>();
+        value = item.Visit<T>();
 
         // 是否未过期的有效值
         return !item.Expired;
@@ -327,14 +338,14 @@ public class MemoryCache : Cache
         CacheItem? item = null;
         do
         {
-            if (_cache.TryGetValue(key, out item) && item != null) return (T?)item.Visit();
+            if (_cache.TryGetValue(key, out item) && item != null) return item.Visit<T>();
 
             item ??= new CacheItem(callback(key), expire);
         } while (!_cache.TryAdd(key, item));
 
         Interlocked.Increment(ref _count);
 
-        return (T?)item.Visit();
+        return item.Visit<T>();
     }
 
     /// <summary>累加，原子操作</summary>
@@ -386,8 +397,8 @@ public class MemoryCache : Cache
     public override IList<T> GetList<T>(String key)
     {
         var item = GetOrAddItem(key, k => new List<T>());
-        return item.Visit() as IList<T> ??
-         throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.Value?.GetType()} to {typeof(IList<T>)}");
+        return item.Visit<IList<T>>() ??
+         throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.TypeCode} to {typeof(IList<T>)}");
     }
 
     /// <summary>获取哈希</summary>
@@ -397,8 +408,8 @@ public class MemoryCache : Cache
     public override IDictionary<String, T> GetDictionary<T>(String key)
     {
         var item = GetOrAddItem(key, k => new ConcurrentDictionary<String, T>());
-        return item.Visit() as IDictionary<String, T> ??
-         throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.Value?.GetType()} to {typeof(IDictionary<String, T>)}");
+        return item.Visit<IDictionary<String, T>>() ??
+         throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.TypeCode} to {typeof(IDictionary<String, T>)}");
     }
 
     /// <summary>获取队列</summary>
@@ -408,8 +419,8 @@ public class MemoryCache : Cache
     public override IProducerConsumer<T> GetQueue<T>(String key)
     {
         var item = GetOrAddItem(key, k => new MemoryQueue<T>());
-        return item.Visit() as IProducerConsumer<T> ??
-            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.Value?.GetType()} to {typeof(IProducerConsumer<T>)}");
+        return item.Visit<IProducerConsumer<T>>() ??
+            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.TypeCode} to {typeof(IProducerConsumer<T>)}");
     }
 
     /// <summary>获取栈</summary>
@@ -419,8 +430,8 @@ public class MemoryCache : Cache
     public override IProducerConsumer<T> GetStack<T>(String key)
     {
         var item = GetOrAddItem(key, k => new MemoryQueue<T>(new ConcurrentStack<T>()));
-        return item.Visit() as IProducerConsumer<T> ??
-            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.Value?.GetType()} to {typeof(IProducerConsumer<T>)}");
+        return item.Visit<IProducerConsumer<T>>() ??
+            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.TypeCode} to {typeof(IProducerConsumer<T>)}");
     }
 
     /// <summary>获取Set</summary>
@@ -431,8 +442,8 @@ public class MemoryCache : Cache
     public override ICollection<T> GetSet<T>(String key)
     {
         var item = GetOrAddItem(key, k => new HashSet<T>());
-        return item.Visit() as ICollection<T> ??
-            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.Value?.GetType()} to {typeof(ICollection<T>)}");
+        return item.Visit<ICollection<T>>() ??
+            throw new InvalidCastException($"Unable to convert the value of [{key}] from {item.TypeCode} to {typeof(ICollection<T>)}");
     }
 
     /// <summary>获取 或 添加 缓存项</summary>
@@ -468,12 +479,16 @@ public class MemoryCache : Cache
     /// <summary>缓存项</summary>
     public class CacheItem
     {
-        private Object? _Value;
-        /// <summary>数值</summary>
-        public Object? Value { get => _Value; protected set => _Value = value; }
+        /// <summary>数值类型</summary>
+        public TypeCode TypeCode { get; set; }
 
-        /// <summary>过期时间</summary>
-        public Int64 ExpiredTime { get;protected set; }
+        private Int64 _valueLong;
+        private Object? _value;
+        /// <summary>数值</summary>
+        public Object? Value { get => IsInt() ? _valueLong : _value; }
+
+        /// <summary>过期时间。系统启动以来的毫秒数</summary>
+        public Int64 ExpiredTime { get; set; }
 
         /// <summary>是否过期</summary>
         public Boolean Expired => ExpiredTime <= Runtime.TickCount64;
@@ -489,24 +504,43 @@ public class MemoryCache : Cache
         /// <summary>设置数值和过期时间</summary>
         /// <param name="value"></param>
         /// <param name="expire">过期时间，秒</param>
-        public void Set(Object? value, Int32 expire)
+        public void Set<T>(T value, Int32 expire)
         {
-            Value = value;
+            var type = typeof(T);
+            TypeCode = type.GetTypeCode();
+
+            if (IsInt())
+                _valueLong = value.ToLong();
+            else
+                _value = value;
 
             var now = VisitTime = Runtime.TickCount64;
             if (expire <= 0)
                 ExpiredTime = Int64.MaxValue;
             else
-                ExpiredTime = now + expire * 1000L;
+                ExpiredTime = now + expire * 1000;
         }
 
         /// <summary>设置数值和过期时间</summary>
         /// <param name="value"></param>
         /// <param name="expire">过期时间，秒</param>
-        public void Set(Object? value, TimeSpan expire)
+        public void Set<T>(T value, TimeSpan expire)
         {
-            Value = value;
+            var type = typeof(T);
+            TypeCode = type.GetTypeCode();
 
+            if (IsInt())
+                _valueLong = value.ToLong();
+            else
+                _value = value;
+
+            SetExpire(expire);
+        }
+
+        /// <summary>设置过期时间</summary>
+        /// <param name="expire"></param>
+        public void SetExpire(TimeSpan expire)
+        {
             var now = VisitTime = Runtime.TickCount64;
             if (expire == TimeSpan.Zero)
                 ExpiredTime = Int64.MaxValue;
@@ -514,12 +548,35 @@ public class MemoryCache : Cache
                 ExpiredTime = now + (Int64)expire.TotalMilliseconds;
         }
 
+        private Boolean IsInt() => TypeCode >= TypeCode.SByte && TypeCode <= TypeCode.UInt64;
+        //private Boolean IsDouble() => TypeCode is TypeCode.Single or TypeCode.Double or TypeCode.Decimal;
+
         /// <summary>更新访问时间并返回数值</summary>
         /// <returns></returns>
-        public Object? Visit()
+        public T? Visit<T>()
         {
             VisitTime = Runtime.TickCount64;
-            return Value;
+
+            if (IsInt())
+            {
+                // 存入取出相同，大多数时候走这里
+                if (_valueLong is T n) return n;
+
+                return _valueLong.ChangeType<T>();
+            }
+            else
+            {
+                var rs = _value;
+                if (rs == null) return default;
+
+                // 存入取出相同，大多数时候走这里
+                if (rs is T t) return t;
+
+                // 复杂类型返回空值，避免ChangeType失败抛出异常
+                if (typeof(T).GetTypeCode() == TypeCode.Object) return default;
+
+                return rs.ChangeType<T>();
+            }
         }
 
         /// <summary>递增</summary>
@@ -527,16 +584,17 @@ public class MemoryCache : Cache
         /// <returns></returns>
         public Int64 Inc(Int64 value)
         {
-            // 原子操作
-            Int64 newValue;
-            Object oldValue;
-            do
+            // 如果不是整数，先转为整数
+            if (!IsInt())
             {
-                oldValue = _Value ?? 0;
-                newValue = oldValue.ToLong() + value.ToLong();
-            } while (Interlocked.CompareExchange(ref _Value, newValue, oldValue) != oldValue);
+                _valueLong = _value.ToLong();
+                TypeCode = TypeCode.Int64;
+            }
 
-            Visit();
+            // 原子操作
+            var newValue = Interlocked.Add(ref _valueLong, value);
+
+            VisitTime = Runtime.TickCount64;
 
             return newValue;
         }
@@ -548,14 +606,14 @@ public class MemoryCache : Cache
         {
             // 原子操作
             Double newValue;
-            Object oldValue;
+            Object? oldValue;
             do
             {
-                oldValue = _Value ?? 0;
-                newValue = oldValue.ToDouble() + value.ToDouble();
-            } while (Interlocked.CompareExchange(ref _Value, newValue, oldValue) != oldValue);
+                oldValue = _value;
+                newValue = (oldValue is Double n ? n : oldValue.ToDouble()) + value;
+            } while (Interlocked.CompareExchange(ref _value, newValue, oldValue) != oldValue);
 
-            Visit();
+            VisitTime = Runtime.TickCount64;
 
             return newValue;
         }
@@ -565,16 +623,17 @@ public class MemoryCache : Cache
         /// <returns></returns>
         public Int64 Dec(Int64 value)
         {
-            // 原子操作
-            Int64 newValue;
-            Object oldValue;
-            do
+            // 如果不是整数，先转为整数
+            if (!IsInt())
             {
-                oldValue = _Value ?? 0;
-                newValue = oldValue.ToLong() - value.ToLong();
-            } while (Interlocked.CompareExchange(ref _Value, newValue, oldValue) != oldValue);
+                _valueLong = _value.ToLong();
+                TypeCode = TypeCode.Int64;
+            }
 
-            Visit();
+            // 原子操作
+            var newValue = Interlocked.Add(ref _valueLong, -value);
+
+            VisitTime = Runtime.TickCount64;
 
             return newValue;
         }
@@ -586,14 +645,14 @@ public class MemoryCache : Cache
         {
             // 原子操作
             Double newValue;
-            Object oldValue;
+            Object? oldValue;
             do
             {
-                oldValue = _Value ?? 0;
-                newValue = oldValue.ToDouble() - value.ToDouble();
-            } while (Interlocked.CompareExchange(ref _Value, newValue, oldValue) != oldValue);
+                oldValue = _value;
+                newValue = (oldValue is Double n ? n : oldValue.ToDouble()) - value;
+            } while (Interlocked.CompareExchange(ref _value, newValue, oldValue) != oldValue);
 
-            Visit();
+            VisitTime = Runtime.TickCount64;
 
             return newValue;
         }
@@ -723,7 +782,8 @@ public class MemoryCache : Cache
             bn.Write(item.Key);
             bn.Write((Int32)(ci.ExpiredTime / 1000));
 
-            var type = ci.Value?.GetType();
+            var value = ci.Value;
+            var type = value?.GetType();
             if (type == null)
             {
                 bn.Write((Byte)TypeCode.Empty);
@@ -734,11 +794,11 @@ public class MemoryCache : Cache
                 bn.Write((Byte)code);
 
                 if (code != TypeCode.Object)
-                    bn.Write(ci.Value);
+                    bn.Write(value);
                 else
                 {
                     bn.Write(type.FullName);
-                    if (ci.Value != null) bn.Write(Binary.FastWrite(ci.Value));
+                    if (value != null) bn.Write(Binary.FastWrite(value));
                 }
             }
         }
@@ -790,7 +850,7 @@ public class MemoryCache : Cache
                 //var type = Type.GetType(typeName);
                 var type = typeName?.GetTypeEx();
 
-                var pk = bn.Read<Packet>();
+                var pk = bn.Read<IPacket>();
                 value = pk;
                 if (type != null && pk != null)
                 {
@@ -817,23 +877,22 @@ public class MemoryCache : Cache
     #endregion
 
     #region 性能测试
-    /// <summary>使用指定线程测试指定次数</summary>
-    /// <param name="times">次数</param>
-    /// <param name="threads">线程</param>
-    /// <param name="rand">随机读写</param>
-    /// <param name="batch">批量操作</param>
-    public override Int64 BenchOne(Int64 times, Int32 threads, Boolean rand, Int32 batch)
+    /// <summary>获取每个线程测试次数</summary>
+    /// <param name="rand"></param>
+    /// <param name="batch"></param>
+    /// <returns></returns>
+    protected override Int32 GetTimesPerThread(Boolean rand, Int32 batch)
     {
+        var times = base.GetTimesPerThread(rand, batch);
+
         if (rand)
             times *= 100;
         else
-            times *= 1000;
+            times *= 10000;
 
-        return base.BenchOne(times, threads, rand, batch);
+        return times;
     }
     #endregion
-
-
 }
 
 /// <summary>生产者消费者</summary>
@@ -966,4 +1025,3 @@ public class MemoryQueue<T> : DisposeBase, IProducerConsumer<T>
     /// <returns></returns>
     public Int32 Acknowledge(params String[] keys) => 0;
 }
-//#nullable restore

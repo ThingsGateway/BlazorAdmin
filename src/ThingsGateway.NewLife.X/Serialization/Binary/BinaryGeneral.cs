@@ -25,11 +25,11 @@ public class BinaryGeneral : BinaryHandlerBase
         {
             if (value == null)
             {
-                Host.Write(0);
+                Host.Write((Byte)0);
                 return true;
             }
             else
-                Host.Write(1);
+                Host.Write((Byte)1);
         }
 
         switch (type.GetTypeCode())
@@ -363,7 +363,7 @@ public class BinaryGeneral : BinaryHandlerBase
         {
             //Host.WriteSize(0);
             // 可能因为FieldSize设定需要补充0字节
-            Write(new Byte[0]);
+            Write([]);
             return;
         }
 
@@ -371,7 +371,7 @@ public class BinaryGeneral : BinaryHandlerBase
         {
             //Host.WriteSize(0);
             // 可能因为FieldSize设定需要补充0字节
-            Write(new Byte[0]);
+            Write([]);
             return;
         }
 
@@ -387,7 +387,7 @@ public class BinaryGeneral : BinaryHandlerBase
         if (value == null || value.Length == 0)
         {
             //Host.WriteSize(0);
-            Write(new Byte[0]);
+            Write([]);
             return;
         }
 
@@ -411,7 +411,7 @@ public class BinaryGeneral : BinaryHandlerBase
     {
         if (count < 0) count = Host.ReadSize();
 
-        if (count <= 0) return new Byte[0];
+        if (count <= 0) return [];
 
         var max = IOHelper.MaxSafeArraySize;
         if (count > max) throw new XException("Security required, reading large variable length arrays is not allowed {0:n0}>{1:n0}", count, max);
@@ -499,7 +499,7 @@ public class BinaryGeneral : BinaryHandlerBase
     /// <returns></returns>
     public virtual Char ReadChar() => Convert.ToChar(ReadByte());
 
-    /// <summary>从当前流中读取一个字符串。字符串有长度前缀，一次 7 位地被编码为整数。</summary>
+    /// <summary>从当前流中读取一个字符串。字符串有长度前缀，7位压缩编码整数。</summary>
     /// <returns></returns>
     public virtual String ReadString()
     {
