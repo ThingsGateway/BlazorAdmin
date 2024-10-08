@@ -16,8 +16,8 @@ public class VersionService : IAppVersionService
 {
     public VersionService()
     {
-        Version = ((AssemblyInformationalVersionAttribute?)GetType().Assembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false).FirstOrDefault())?.InformationalVersion;
-        Version ??= GetType().Assembly.GetName().Version?.ToString();
+        Version = ((AssemblyInformationalVersionAttribute?)Assembly.GetEntryAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false).FirstOrDefault())?.InformationalVersion;
+        Version ??= Assembly.GetEntryAssembly().GetName().Version?.ToString();
         if (!string.IsNullOrEmpty(Version))
         {
             var index = Version.IndexOf('+');
