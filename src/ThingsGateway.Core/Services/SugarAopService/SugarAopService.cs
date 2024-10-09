@@ -58,7 +58,7 @@ public class SugarAopService : ISugarAopService
                     Console.ForegroundColor = ConsoleColor.Red;
                     DbContext.WriteLog($"删除{config.ConfigId}库操作");
                 }
-                DbContext.WriteLogWithSql(UtilMethods.GetSqlString(config.DbType, sql, pars));
+                DbContext.WriteLogWithSql(UtilMethods.GetNativeSql(sql, pars));
                 DbContext.WriteLog($"{config.ConfigId}库操作结束");
                 Console.ForegroundColor = ConsoleColor.White;
             };
@@ -68,9 +68,8 @@ public class SugarAopService : ISugarAopService
         {
             if (ex.Parametres == null) return;
             Console.ForegroundColor = ConsoleColor.Red;
-            var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
             DbContext.WriteLog($"{config.ConfigId}库操作异常");
-            DbContext.WriteErrorLogWithSql(UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+            DbContext.WriteErrorLogWithSql(UtilMethods.GetNativeSql(ex.Sql, (SugarParameter[])ex.Parametres));
             Console.WriteLine(ex.ToString());
             Console.ForegroundColor = ConsoleColor.White;
         };
