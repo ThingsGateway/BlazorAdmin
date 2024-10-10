@@ -171,7 +171,9 @@
     "Online": "在線狀態",
     "VerificatRemain": "剩餘有效期",
     "VerificatTimeout": "超時時間",
-    "Device": "登錄設備"
+    "Device": "登錄設備",
+    "LoginIp": "登錄IP",
+    "LoginTime": "登錄時間"
   },
 
   "ThingsGateway.Admin.Application.SessionOutput": {

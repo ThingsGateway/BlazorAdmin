@@ -317,7 +317,9 @@ public class AuthService : IAuthService
             Expire = loginEvent.Expire,
             VerificatTimeout = tokenTimeout,
             Id = loginEvent.VerificatId,
-            UserId = loginEvent.SysUser.Id
+            UserId = loginEvent.SysUser.Id,
+            LoginIp = loginEvent.Ip,
+            LoginTime = loginEvent.DateTime
         };
         //判断是否单用户登录
         if (loginPolicy.SingleOpen)

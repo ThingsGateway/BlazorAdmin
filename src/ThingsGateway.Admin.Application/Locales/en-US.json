@@ -200,7 +200,9 @@
     "Online": "Online",
     "VerificatRemain": "VerificatRemain",
     "VerificatTimeout": "VerificatTimeout",
-    "Device": "Device"
+    "Device": "Device",
+    "LoginIp": "LoginIp",
+    "LoginTime": "LoginTime"
   },
 
   "ThingsGateway.Admin.Application.SessionOutput": {

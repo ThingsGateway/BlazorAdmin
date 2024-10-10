@@ -46,11 +46,23 @@ public class VerificatInfo : PrimaryIdEntity
     public override long Id { get; set; }
 
     /// <summary>
+    /// 登录IP
+    /// </summary>
+    [AutoGenerateColumn(Filterable = true, Sortable = true, Width = 200)]
+    public string LoginIp { get; set; }
+
+    /// <summary>
+    /// 登录时间
+    /// </summary>
+    [AutoGenerateColumn(Filterable = true, Sortable = true, Width = 200)]
+    public DateTime LoginTime { get; set; }
+
+    /// <summary>
     /// 在线状态
     /// </summary>
     [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]
-    [AutoGenerateColumn(Filterable = true, Sortable = true)]
+    [AutoGenerateColumn(Filterable = true, Sortable = true, Width = 120)]
     [SugarColumn(IsIgnore = true)]
     public bool Online => ClientIds.Any();
 
@@ -80,4 +92,6 @@ public class VerificatInfo : PrimaryIdEntity
     /// </summary>
     [AutoGenerateColumn(Filterable = true, Sortable = true, Width = 100)]
     public string Device { get; set; }
+
+
 }

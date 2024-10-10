@@ -3,10 +3,10 @@
 @using ThingsGateway.Extension
 @inherits ComponentDefault
 
-<AdminTable @ref="table" TItem="VerificatInfo" AutoGenerateColumns="true" ShowAdvancedSearch=false
+<AdminTable @ref="table" TItem="VerificatInfo" AutoGenerateColumns="true" ShowAdvancedSearch=false ShowSearch="false"
             AllowResizing="true" IsFixedHeader=true IsMultipleSelect=true SearchModel=SearchModel
             ShowExtendButtons=true ShowExtendDeleteButton=false ShowExtendEditButton=false
-            ShowDefaultButtons=false ExtendButtonColumnWidth=220
+            ShowDefaultButtons=false ExtendButtonColumnWidth=150
             OnQueryAsync="OnQueryAsync" IsPagination=true>
     <TableToolbarTemplate>
         <TableToolbarButton TItem="VerificatInfo"

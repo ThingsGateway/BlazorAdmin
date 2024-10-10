@@ -199,7 +199,9 @@
     "Online": "在线状态",
     "VerificatRemain": "剩余有效期",
     "VerificatTimeout": "超时时间",
-    "Device": "登录设备"
+    "Device": "登录设备",
+    "LoginIp": "登录IP",
+    "LoginTime": "登录时间"
   },
 
   "ThingsGateway.Admin.Application.SessionOutput": {

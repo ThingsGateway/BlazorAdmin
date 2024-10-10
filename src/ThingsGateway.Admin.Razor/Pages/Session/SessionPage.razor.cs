@@ -44,7 +44,7 @@ public partial class SessionPage
                 IsScrolling = false,
                 Title = Localizer[nameof(VerificatInfo)],
                 ShowFooter = false,
-                Size = Size.ExtraLarge
+                Size = Size.ExtraExtraLarge,
             };
             op.Component = BootstrapDynamicComponent.CreateComponent<VerificatListPage>(new Dictionary<string, object?>
             {
