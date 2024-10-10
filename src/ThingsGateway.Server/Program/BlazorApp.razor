@@ -35,10 +35,7 @@
 
 <body>
     <Routes @rendermode="new InteractiveServerRenderMode(false)" />
-
     <ReconnectorOutlet ReconnectInterval="5000" @rendermode="new InteractiveServerRenderMode(false)" />
-
-    <BlazorReconnector @rendermode="new InteractiveServerRenderMode(false)" />
     
     <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
     <script src=@($"{WebsiteConst.DefaultResourceUrl}js/culture.js")></script>

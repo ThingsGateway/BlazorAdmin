@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
 @using ThingsGateway.Admin.Application
+@using ThingsGateway.Razor
 @namespace ThingsGateway
 
 @{
@@ -28,6 +30,7 @@
 @{
     #else
 }
+<BlazorReconnector @rendermode="new InteractiveServerRenderMode(false)" />
 <Router AppAssembly="@typeof(Routes).Assembly" AdditionalAssemblies="App.RazorAssemblies.Where(a=>a!=typeof(Routes).Assembly)">
 <Found Context="routeData">
 
