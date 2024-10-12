@@ -122,7 +122,7 @@ public static class Native
         return windowInstance;
     }
 
-    private static readonly object PortLock = new();
+    private static readonly object _portLock = new();
 
     /// <summary>
     /// 获取一个空闲端口
@@ -135,7 +135,7 @@ public static class Native
 
         do
         {
-            lock (PortLock)
+            lock (_portLock)
             {
                 var randomPort = RandomNumberGenerator.GetInt32(fromPort, toPort + 1);
                 if (!IsPortInUse(randomPort))
