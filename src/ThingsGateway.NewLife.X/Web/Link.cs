@@ -197,6 +197,7 @@ public class Link
     public Link Parse(String file)
     {
         RawUrl = file;
+        Url = file.GetFullPath();
         FullName = Path.GetFileName(file);
         Name = FullName;
 
@@ -223,7 +224,9 @@ public class Link
         return this;
     }
 
-    private Int32 ParseTime()
+    /// <summary>从名称分解时间</summary>
+    /// <returns></returns>
+    public Int32 ParseTime()
     {
         var name = Name;
         if (name.IsNullOrEmpty()) return -1;
@@ -258,7 +261,9 @@ public class Link
         return p;
     }
 
-    private Int32 ParseVersion()
+    /// <summary>从名称分解版本</summary>
+    /// <returns></returns>
+    public Int32 ParseVersion()
     {
         var name = Name;
         if (name.IsNullOrEmpty()) return -1;
