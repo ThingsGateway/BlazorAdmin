@@ -154,15 +154,16 @@ public class Startup : AppStartup
         {
             options.WriteFilter = (logMsg) =>
             {
-                //如果不是LoggingMonitor日志才格式化
-                if (logMsg.LogName != "System.Logging.LoggingMonitor")
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
+                ////如果不是LoggingMonitor日志才格式化
+                //if (logMsg.LogName != "System.Logging.LoggingMonitor")
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    return false;
+                //}
             };
 
             options.MessageFormat = (logMsg) =>
