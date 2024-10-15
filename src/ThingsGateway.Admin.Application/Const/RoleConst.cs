@@ -35,4 +35,9 @@ public class RoleConst
     /// 超级管理员Id
     /// </summary>
     public const long SuperAdminId = 212725263002001;
+
+    /// <summary>
+    /// 超级管理员Id
+    /// </summary>
+    public const long SuperAdminRoleId = 212725263001001;
 }

@@ -120,6 +120,7 @@
     "SortCode": "排序",
     "CanotDeleteAdmin": "不可刪除系統內建超管角色",
     "CanotEditAdmin": "不可編輯超管角色",
+    "CanotGrantAdmin": "不能分配超管角色",
     "ApiRoleCanotGrantResource": "API角色不允許授權資源",
     "CategoryError": "角色所屬分類 {0} 錯誤",
     "NameDup": "存在重複的角色名稱 {0}"
@@ -151,7 +152,7 @@
     "CheckSelf": "禁止 {0} 自己",
     "CanotDeleteAdminUser": "不可刪除系統內建超管用戶",
     "CanotEditAdminUser": "不可編輯超管用戶",
-    "CanotGrantAdmin": "不能給超管分配角色",
+    "CanotGrantAdmin": "不能分配超管角色",
     "EmailDup": "存在重複的郵箱 {0}",
     "AccountDup": "存在重複的帳號 {0}",
     "CanotDeleteSelf": "不可刪除自己",

@@ -25,7 +25,7 @@ public class SysUserSeedData : ISqlSugarEntitySeedData<SysUser>
             new SysUser()
             {
                   Id=RoleConst.SuperAdminId,
-                  Account= "SuperAdmin",
+                  Account=RoleConst.SuperAdmin,
                   Password="7DA385A25A98388E",
                   Status=true,
                   DefaultModule=6,

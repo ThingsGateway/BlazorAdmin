@@ -15,7 +15,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SysRoleService : BaseService<SysRole>, ISysRoleService
+internal class SysRoleService : BaseService<SysRole>, ISysRoleService
 {
     private readonly IRelationService _relationService;
     private readonly ISysResourceService _sysResourceService;
@@ -265,6 +265,11 @@ class SysRoleService : BaseService<SysRole>, ISysRoleService
     [OperDesc("RoleGrantUser")]
     public async Task GrantUserAsync(GrantUserOrRoleInput input)
     {
+        var isSuperAdmin = input.Id == RoleConst.SuperAdminRoleId && !UserManager.SuperAdmin;//判断是否有超管
+        if (isSuperAdmin)
+            throw Oops.Bah(Localizer["CanotGrantAdmin"]);
+
+
         var sysRelations = input.GrantInfoList.Select(it =>
        new SysRelation()
        {

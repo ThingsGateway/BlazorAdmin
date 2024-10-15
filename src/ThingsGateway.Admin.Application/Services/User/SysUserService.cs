@@ -18,7 +18,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SysUserService : BaseService<SysUser>, ISysUserService
+internal class SysUserService : BaseService<SysUser>, ISysUserService
 {
     private readonly IRelationService _relationService;
     private readonly ISysResourceService _sysResourceService;
@@ -374,9 +374,10 @@ class SysUserService : BaseService<SysUser>, ISysUserService
         var sysUser = await GetUserByIdAsync(input.Id).ConfigureAwait(false);//获取用户信息
         if (sysUser != null)
         {
-            var isSuperAdmin = sysUser.Account == RoleConst.SuperAdmin;//判断是否有超管
+            var isSuperAdmin = (sysUser.Account == RoleConst.SuperAdmin || input.GrantInfoList.Any(a => a == RoleConst.SuperAdminRoleId)) && !UserManager.SuperAdmin;//判断是否有超管
             if (isSuperAdmin)
                 throw Oops.Bah(Localizer["CanotGrantAdmin"]);
+
             CheckSelf(input.Id, Localizer["GrantRole"]);//判断是不是自己
 
             //给用户赋角色

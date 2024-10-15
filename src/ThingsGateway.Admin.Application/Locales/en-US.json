@@ -144,6 +144,7 @@
 
     "CanotDeleteAdmin": "Cannot delete built-in super admin role",
     "CanotEditAdmin": "Cannot edit super admin role",
+    "CanotGrantAdmin": "Cannot assign admins roles",
     "ApiRoleCanotGrantResource": "API role is not allowed to grant resources",
     "CategoryError": "Role belongs to category {0} error",
     "NameDup": "Duplicate role name {0}"
@@ -179,7 +180,7 @@
     "CheckSelf": "Prohibit {0} yourself",
     "CanotDeleteAdminUser": "Cannot delete built-in super admin user",
     "CanotEditAdminUser": "Cannot edit super admin user",
-    "CanotGrantAdmin": "Cannot assign roles to super admins",
+    "CanotGrantAdmin": "Cannot assign admins roles",
     "EmailDup": "Duplicate email {0} exists",
     "AccountDup": "Duplicate account {0} exists",
     "CanotDeleteSelf": "Cannot delete yourself",

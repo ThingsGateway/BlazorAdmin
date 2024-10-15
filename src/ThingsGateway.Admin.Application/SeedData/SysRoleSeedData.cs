@@ -20,6 +20,17 @@ public class SysRoleSeedData : ISqlSugarEntitySeedData<SysRole>
     {
         var data = SeedDataUtil.GetSeedData<SysRole>(PathExtensions.CombinePathWithOs("SeedData", "Admin", "seed_sys_role.json"));
         var assembly = GetType().Assembly;
-        return SeedDataUtil.GetSeedDataByJson<SysRole>(SeedDataUtil.GetManifestResourceStream(assembly, "SeedData.Admin.seed_sys_role.json")).Concat(data);
+        return new List<SysRole>()
+        {
+            new SysRole()
+            {
+                  Id=RoleConst.SuperAdminRoleId,
+                  Code=RoleConst.SuperAdmin,
+                  Name="超级管理员",
+                  Category=RoleCategoryEnum.Global,
+                  IsDelete=false,
+                  SortCode=0
+            }
+        }.Concat(SeedDataUtil.GetSeedDataByJson<SysRole>(SeedDataUtil.GetManifestResourceStream(assembly, "SeedData.Admin.seed_sys_role.json")).Concat(data));
     }
 }

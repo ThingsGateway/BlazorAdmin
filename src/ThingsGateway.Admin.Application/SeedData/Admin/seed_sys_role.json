@@ -1,15 +1,6 @@
 ﻿{
   "RECORDS": [
     {
-      "Id": 212725263001001,
-      "Code": "SuperAdmin",
-      "Name": "超级管理员",
-      "Category": "GLOBAL",
-      "CreateUserId": 0,
-      "IsDelete": "0",
-      "SortCode": 1
-    },
-    {
       "Id": 212725263001002,
       "Code": "BizAdmin",
       "Name": "业务管理员",
@@ -24,7 +15,7 @@
       "Name": "Api管理员",
       "Category": "API",
       "IsDelete": "0",
-      "SortCode": 0
+      "SortCode": 3
     }
   ]
 }

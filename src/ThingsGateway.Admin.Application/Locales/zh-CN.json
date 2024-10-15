@@ -145,6 +145,8 @@
 
     "CanotDeleteAdmin": "不可删除系统内置超管角色",
     "CanotEditAdmin": "不可编辑超管角色",
+    "CanotGrantAdmin": "不能分配超管角色",
+
     "ApiRoleCanotGrantResource": "API角色不允许授权资源",
     "CategoryError": "角色所属分类 {0} 错误",
     "NameDup": "存在重复的角色名称 {0}"
@@ -178,7 +180,7 @@
     "CheckSelf": "禁止 {0} 自己",
     "CanotDeleteAdminUser": "不可删除系统内置超管用户",
     "CanotEditAdminUser": "不可编辑超管用户",
-    "CanotGrantAdmin": "不能给超管分配角色",
+    "CanotGrantAdmin": "不能分配超管角色",
     "EmailDup": "存在重复的邮箱 {0}",
     "AccountDup": "存在重复的账号 {0}",
     "CanotDeleteSelf": "不可删除自己",
