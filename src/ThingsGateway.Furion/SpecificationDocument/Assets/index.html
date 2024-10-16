@@ -1,4 +1,4 @@
-<!-- HTML for static distribution bundle build -->
+﻿<!-- HTML for static distribution bundle build -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,7 +314,7 @@
             function objectToString(obj) {
                 let arr = [];
                 for (var k in obj) {
-                    arr.push(`${k}=${obj[k]}`);
+                    arr.push(`${k}=${encodeURIComponent(obj[k])}`);
                 }
 
                 return arr.join('&');
