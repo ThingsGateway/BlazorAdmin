@@ -22,7 +22,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ThingsGateway.Admin.Application;
 
 /// <inheritdoc/>
-class EmailService : IEmailService
+internal class EmailService : IEmailService
 {
     private readonly EmailOptions _emailOptions;
     private readonly WebsiteOptions _websiteOptions;

@@ -18,7 +18,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SysOperateLogService : BaseService<SysOperateLog>, ISysOperateLogService
+internal class SysOperateLogService : BaseService<SysOperateLog>, ISysOperateLogService
 {
 
     #region 查询

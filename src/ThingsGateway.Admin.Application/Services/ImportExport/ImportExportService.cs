@@ -18,7 +18,7 @@ using Yitter.IdGenerator;
 
 namespace ThingsGateway.Admin.Application;
 
-class ImportExportService : IImportExportService
+internal class ImportExportService : IImportExportService
 {
     private readonly IFileService _fileService;
 

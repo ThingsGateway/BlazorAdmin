@@ -79,7 +79,7 @@ public class BaseService<T> : IDataService<T>, IDisposable where T : class, new(
     }
 
     /// <inheritdoc/>
-    public async Task<QueryData<T>> QueryAsync(QueryPageOptions option, Func<ISugarQueryable<T>, ISugarQueryable<T>>? queryFunc = null)
+    public virtual async Task<QueryData<T>> QueryAsync(QueryPageOptions option, Func<ISugarQueryable<T>, ISugarQueryable<T>>? queryFunc = null)
     {
         var ret = new QueryData<T>()
         {

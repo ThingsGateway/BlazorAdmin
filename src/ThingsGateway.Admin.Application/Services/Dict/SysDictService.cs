@@ -15,7 +15,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SysDictService : BaseService<SysDict>, ISysDictService
+internal class SysDictService : BaseService<SysDict>, ISysDictService
 {
     /// <summary>
     /// 删除业务配置

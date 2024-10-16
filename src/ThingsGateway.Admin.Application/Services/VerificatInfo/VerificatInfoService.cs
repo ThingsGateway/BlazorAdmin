@@ -15,7 +15,7 @@ namespace ThingsGateway.Admin.Application;
 /// <summary>
 /// 操作内存，只在程序停止/启动时设置/获取持久化数据
 /// </summary>
-class VerificatInfoService : BaseService<VerificatInfo>, IVerificatInfoService
+internal class VerificatInfoService : BaseService<VerificatInfo>, IVerificatInfoService
 {
     #region 查询
 

@@ -14,7 +14,7 @@ namespace ThingsGateway.Razor;
 
 public class DefaultMenuService : IMenuService
 {
-    MenuOptions MenuOptions;
+    private MenuOptions MenuOptions;
     public DefaultMenuService(IOptions<MenuOptions> options)
     {
         MenuOptions = options?.Value ?? new();

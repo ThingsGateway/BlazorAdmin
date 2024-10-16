@@ -10,7 +10,7 @@
 
 namespace ThingsGateway.Admin.Application;
 
-class NoticeService : INoticeService
+internal class NoticeService : INoticeService
 {
     private IEventService<AppMessage>? MessageDispatchService { get; set; }
     private IEventService<string>? StringDispatchService { get; set; }

@@ -19,7 +19,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SessionService : BaseService<SysUser>, ISessionService
+internal class SessionService : BaseService<SysUser>, ISessionService
 {
     private readonly IVerificatInfoService _verificatInfoService;
 

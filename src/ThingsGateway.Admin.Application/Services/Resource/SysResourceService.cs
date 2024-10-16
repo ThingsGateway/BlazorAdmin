@@ -21,7 +21,7 @@ using ThingsGateway.NewLife.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class SysResourceService : BaseService<SysResource>, ISysResourceService
+internal class SysResourceService : BaseService<SysResource>, ISysResourceService
 {
     private readonly IRelationService _relationService;
 

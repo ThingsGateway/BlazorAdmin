@@ -20,7 +20,7 @@ using ThingsGateway.Extension;
 
 namespace ThingsGateway.Admin.Application;
 
-class ApiPermissionService : IApiPermissionService
+internal class ApiPermissionService : IApiPermissionService
 {
     /// <inheritdoc />
     public List<OpenApiPermissionTreeSelector> ApiPermissionTreeSelector()

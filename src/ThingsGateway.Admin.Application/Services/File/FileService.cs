@@ -19,7 +19,7 @@ using ThingsGateway.FriendlyException;
 
 namespace ThingsGateway.Admin.Application;
 
-class FileService : IFileService
+internal class FileService : IFileService
 {
     private IStringLocalizer<FileService> _localizer;
     public FileService(
