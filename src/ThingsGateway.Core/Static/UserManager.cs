@@ -43,4 +43,6 @@ public static class UserManager
     /// 当前验证Id
     /// </summary>
     public static long VerificatId => (_appService.User?.FindFirst(ClaimConst.VerificatId)?.Value).ToLong();
+
+    public static long OrgId => (_appService.User?.FindFirst(ClaimConst.OrgId)?.Value).ToLong();
 }

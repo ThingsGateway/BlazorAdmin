@@ -21,8 +21,15 @@ namespace ThingsGateway.Admin.Application;
 ///</summary>
 [SugarTable("sys_role", TableDescription = "系统角色表")]
 [Tenant(SqlSugarConst.DB_Admin)]
-public class SysRole : BaseEntity
+public class SysRole : BaseDataEntity
 {
+
+    /// <summary>
+    /// 组织id
+    ///</summary>
+    [SugarColumn(ColumnName = "OrgId", ColumnDescription = "组织id", IsNullable = true)]
+    public long? OrgId { get; set; }
+
     /// <summary>
     /// 编码
     ///</summary>
@@ -45,8 +52,40 @@ public class SysRole : BaseEntity
     [AutoGenerateColumn(Visible = true, Sortable = true, Filterable = true)]
     public virtual RoleCategoryEnum Category { get; set; }
 
+
+
+    /// <summary>
+    /// 默认数据范围
+    ///</summary>
+    [SugarColumn(ColumnName = "DefaultDataScope", ColumnDescription = "默认数据范围", IsJson = true, ColumnDataType = StaticConfig.CodeFirst_BigString,
+        IsNullable = false)]
+    public virtual DefaultDataScope DefaultDataScope { get; set; }
+
     public override int GetHashCode()
     {
         return Id.GetHashCode();
     }
+}
+
+
+
+/// <summary>
+/// 默认数据范围
+/// </summary>
+public class DefaultDataScope
+{
+    /// <summary>
+    /// 数据范围等级
+    /// </summary>
+    public int Level { get; set; }
+
+    /// <summary>
+    /// 数据范围
+    /// </summary>
+    public string ScopeCategory { get; set; }
+
+    /// <summary>
+    /// 自定义机构范围列表
+    /// </summary>
+    public List<long> ScopeDefineOrgIdList { get; set; } = new List<long>();
 }

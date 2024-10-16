@@ -166,10 +166,41 @@ internal class SysUserService : BaseService<SysUser>, ISysUserService
             }
             var relationGroup = sysRelations.GroupBy(it => it.TargetId);//根据目标ID,也就是接口名分组，因为存在一个用户多个角色
 
-            permissions.AddRange(relationGroup.Select(a => new DataScope
+            //遍历分组
+            foreach (var it in relationGroup)
             {
-                ApiUrl = a.Key!,
-            }));
+                var scopeSet = new HashSet<long>();//定义不可重复列表
+                var relationList = it;//关系列表
+                var scopeCategory = DataScopeEnum.SCOPE_SELF;//数据权限分类,默认为仅自己
+
+                //获取角色权限信息列表
+                var rolePermissions = relationList.Select(it => it.ExtJson.FromJsonNetString<RelationRolePermission>());
+                if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ALL))//如果有全部
+                    scopeCategory = DataScopeEnum.SCOPE_ALL;//标记为全部
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG_CHILD))//如果有机构及以下机构
+                    scopeCategory = DataScopeEnum.SCOPE_ORG_CHILD;//标记为机构及以下机构
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG))//如果有仅自己机构
+                    scopeCategory = DataScopeEnum.SCOPE_ORG;//标记为仅自己机构
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG_DEFINE))//如果有自定义机构
+                {
+                    scopeCategory = DataScopeEnum.SCOPE_ORG_DEFINE;//标记为仅自己
+                    foreach (var s in rolePermissions)
+                    {
+                        foreach (var item in s.ScopeDefineOrgIdList)
+                        {
+                            scopeSet.Add(item);//添加自定义范围的机构ID
+                        }
+                    }
+                }
+                var dataScopes = scopeSet.ToList();
+                permissions.Add(new DataScope
+                {
+                    ApiUrl = it.Key,
+                    ScopeCategory = scopeCategory,
+                    DataScopes = dataScopes
+                });
+            }
+
         }
 
         #endregion Razor页面权限
@@ -192,10 +223,43 @@ internal class SysUserService : BaseService<SysUser>, ISysUserService
             }
             var relationGroup = apiRelations.GroupBy(it => it.TargetId);//根据目标ID,也就是接口名分组，因为存在一个用户多个角色
 
-            permissions.AddRange(relationGroup.Select(a => new DataScope
+
+
+            //遍历分组
+            foreach (var it in relationGroup)
             {
-                ApiUrl = a.Key!,
-            }));
+                var scopeSet = new HashSet<long>();//定义不可重复列表
+                var relationList = it;//关系列表
+                var scopeCategory = DataScopeEnum.SCOPE_SELF;//数据权限分类,默认为仅自己
+
+                //获取角色权限信息列表
+                var rolePermissions = relationList.Select(it => it.ExtJson.FromJsonNetString<RelationRolePermission>());
+                if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ALL))//如果有全部
+                    scopeCategory = DataScopeEnum.SCOPE_ALL;//标记为全部
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG_CHILD))//如果有机构及以下机构
+                    scopeCategory = DataScopeEnum.SCOPE_ORG_CHILD;//标记为机构及以下机构
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG))//如果有仅自己机构
+                    scopeCategory = DataScopeEnum.SCOPE_ORG;//标记为仅自己机构
+                else if (rolePermissions.Any(role => role.ScopeCategory == DataScopeEnum.SCOPE_ORG_DEFINE))//如果有自定义机构
+                {
+                    scopeCategory = DataScopeEnum.SCOPE_ORG_DEFINE;//标记为仅自己
+                    foreach (var s in rolePermissions)
+                    {
+                        foreach (var item in s.ScopeDefineOrgIdList)
+                        {
+                            scopeSet.Add(item);//添加自定义范围的机构ID
+                        }
+                    }
+                }
+                var dataScopes = scopeSet.ToList();
+                permissions.Add(new DataScope
+                {
+                    ApiUrl = it.Key,
+                    ScopeCategory = scopeCategory,
+                    DataScopes = dataScopes
+                });
+            }
+
         }
 
         #endregion API权限

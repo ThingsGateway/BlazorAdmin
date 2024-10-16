@@ -113,3 +113,15 @@ public abstract class BaseEntity : PrimaryKeyEntity
     [AutoGenerateColumn(Ignore = true)]
     public virtual long? UpdateUserId { get; set; }
 }
+
+/// <summary>
+/// 业务数据实体基类(数据权限)
+/// </summary>
+public abstract class BaseDataEntity : BaseEntity
+{
+    /// <summary>
+    /// 创建者部门Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建者部门Id", IsOnlyIgnoreUpdate = true, IsNullable = true)]
+    public virtual long CreateOrgId { get; set; }
+}

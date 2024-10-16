@@ -8,36 +8,34 @@
 //  QQ群：605534569
 //------------------------------------------------------------------------------
 
-namespace ThingsGateway;
+namespace ThingsGateway.Admin.Application;
 
-/// <summary>
-/// 授权用户常量
-/// </summary>
-[ThingsGateway.DependencyInjection.SuppressSniffer]
-public class ClaimConst
+public enum DataScopeEnum
 {
-    /// <summary>
-    /// 账号
-    /// </summary>
-    public const string Account = "Account";
 
     /// <summary>
-    /// SuperAdmin
+    /// 本人
     /// </summary>
-    public const string SuperAdmin = "SuperAdmin";
+    SCOPE_SELF,
 
     /// <summary>
-    /// 用户Id
+    /// 所有
     /// </summary>
-    public const string UserId = "UserId";
+    SCOPE_ALL,
 
     /// <summary>
-    /// 验证Id
+    /// 仅所属组织
     /// </summary>
-    public const string VerificatId = "VerificatId";
+    SCOPE_ORG,
 
     /// <summary>
-    /// 组织Id
+    /// 所属组织及以下
     /// </summary>
-    public const string OrgId = "OrgId";
+    SCOPE_ORG_CHILD,
+
+    /// <summary>
+    /// 自定义
+    /// </summary>
+    SCOPE_ORG_DEFINE,
+
 }

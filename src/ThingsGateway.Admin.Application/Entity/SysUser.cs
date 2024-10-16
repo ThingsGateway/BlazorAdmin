@@ -189,4 +189,14 @@ public class DataScope
     /// API接口
     /// </summary>
     public string ApiUrl { get; set; }
+
+    /// <summary>
+    /// 数据范围分类
+    /// </summary>
+    public DataScopeEnum ScopeCategory { get; set; }
+
+    /// <summary>
+    /// 数据范围的机构ID列表
+    /// </summary>
+    public List<long> DataScopes { get; set; } = new();
 }

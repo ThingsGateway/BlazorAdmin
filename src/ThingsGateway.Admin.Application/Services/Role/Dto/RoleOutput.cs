@@ -20,4 +20,15 @@ public class RelationRolePermission
     /// 接口Url
     /// </summary>
     public string ApiUrl { get; set; }
+
+    /// <summary>
+    /// 数据范围
+    /// </summary>
+    public DataScopeEnum ScopeCategory { get; set; }
+
+    /// <summary>
+    /// 自定义机构范围列表
+    /// </summary>
+    public List<long> ScopeDefineOrgIdList { get; set; } = new List<long>();
+
 }

@@ -96,6 +96,8 @@ public class SugarAopService : ISugarAopService
                         entityInfo.SetValue(UserManager.UserId);
                     if (entityInfo.PropertyName == nameof(BaseEntity.CreateUser))
                         entityInfo.SetValue(UserManager.UserAccount);
+                    if (entityInfo.PropertyName == nameof(BaseDataEntity.CreateOrgId))
+                        entityInfo.SetValue(UserManager.OrgId);
                 }
             }
             // 更新操作

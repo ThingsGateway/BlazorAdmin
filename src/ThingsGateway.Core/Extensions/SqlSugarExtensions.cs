@@ -28,6 +28,7 @@ public static class SqlSugarExtensions
            nameof(BaseEntity.CreateTime),
            nameof(BaseEntity.CreateUser),
            nameof(BaseEntity.CreateUserId),
+           nameof(BaseDataEntity.CreateOrgId),
            nameof(BaseEntity.ExtJson),
            nameof(BaseEntity.IsDelete),
            nameof(BaseEntity.UpdateTime),
