@@ -43,13 +43,13 @@ public class AppService : IAppService
         }
     }
 
-    public ClientInfo ClientInfo
+    public ClientInfo? ClientInfo
     {
         get
         {
             var str = App.HttpContext?.Request?.Headers?.UserAgent;
             ClientInfo? clientInfo = null;
-            if (str.HasValue)
+            if (!string.IsNullOrEmpty(str))
             {
                 clientInfo = Parser.GetDefault().Parse(str);
             }
