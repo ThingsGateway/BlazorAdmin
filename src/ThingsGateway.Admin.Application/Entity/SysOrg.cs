@@ -63,9 +63,9 @@ public class SysOrg : BaseEntity
     /// <summary>
     /// 分类
     ///</summary>
-    [SugarColumn(ColumnName = "Category", ColumnDescription = "分类", Length = 200)]
+    [SugarColumn(ColumnName = "Category", ColumnDescription = "分类")]
     [AutoGenerateColumn(Visible = true, Sortable = true, Filterable = true)]
-    public string Category { get; set; }
+    public OrgEnum Category { get; set; }
 
     /// <summary>
     /// 主管信息

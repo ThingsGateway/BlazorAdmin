@@ -227,6 +227,24 @@
     "DemoCanotUpdateWebsitePolicy": "DEMO环境不允许修改网站设置"
   },
 
+  "ThingsGateway.Admin.Application.SysOrg": {
+    "Category.Required": "{0} 是必填项",
+    "Name.Required": "{0} 是必填项",
+    "Code.Required": "{0} 是必填项",
+    "Category": "分类",
+    "Name": "名称",
+    "Code": "代码",
+    "Remark": "备注",
+    "SortCode": "排序",
+    "Dup": "存在重复的机构 分类 {0} 名称 {1}",
+    "CodeDup": "存在重复的编码 {0}",
+    "NameDup": "存在重复的名称 {0}",
+    "CanotContainsSelf": "不可包含自己",
+    "TargetNameDup": "目标节点存在重复的名称 {0}",
+    "ParentChoiceSelf": "父级不能选择自己",
+    "ParentNull": "父级不存在 {0}"
+  },
+
   "ThingsGateway.Admin.Application.SysResource": {
     "Title": "标题",
     "Module": "模块",

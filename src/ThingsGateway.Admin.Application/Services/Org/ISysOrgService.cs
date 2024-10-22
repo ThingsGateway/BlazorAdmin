@@ -9,7 +9,12 @@ namespace ThingsGateway.Admin.Application;
 /// </summary>
 public interface ISysOrgService
 {
-
+    /// <summary>
+    /// 复制组织
+    /// </summary>
+    /// <param name="input">机构复制参数</param>
+    /// <returns></returns>
+    Task Copy(SysOrgCopyInput input);
     /// <summary>
     /// 保存机构
     /// </summary>
@@ -29,17 +34,6 @@ public interface ISysOrgService
     /// <param name="option">查询条件</param>
     Task<QueryData<SysOrg>> PageAsync(QueryPageOptions option);
 
-    /// <summary>
-    /// 机构树结构
-    /// </summary>
-    /// <param name="input">机构选择器</param>
-    /// <returns></returns>
-    Task<List<SysOrg>> Tree(SysOrgTreeInput input = null);
 
-    /// <summary>
-    /// 机构详情
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    Task<SysOrg> Detail(BaseIdInput input);
+
 }

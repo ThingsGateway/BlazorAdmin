@@ -51,6 +51,21 @@ public class CacheConst
     public const string Cache_SysUserAccount = $"{CacheConst.Cache_Prefix_Admin}SysUserAccount:";
 
     /// <summary>
+    /// 职位表缓存Key
+    /// </summary>
+    public const string Cache_SysPosition = $"{CacheConst.Cache_Prefix_Admin}SysPosition:";
+
+    /// <summary>
+    /// 机构表缓存Key
+    /// </summary>
+    public const string Cache_SysOrg = $"{CacheConst.Cache_Prefix_Admin}SysOrg:";
+
+    /// <summary>
+    /// 公司表缓存Key
+    /// </summary>
+    public const string Cache_SysCompany = $"{CacheConst.Cache_Prefix_Admin}SysCompany:";
+
+    /// <summary>
     /// Token表缓存Key
     /// </summary>
     public const string Cache_Token = $"{CacheConst.Cache_Prefix_Admin}Token:";

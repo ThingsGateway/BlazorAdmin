@@ -42,7 +42,7 @@ internal class ImportExportService : IImportExportService
 
         var path = ImportExportUtil.GetFileDir(ref fileName);
 
-        fileName = YitIdHelper.NextId() + fileName;
+        fileName = CommonUtils.GetSingleId() + fileName;
         var filePath = Path.Combine(path, fileName);
         using (FileStream fs = new(filePath, FileMode.Create))
         {
@@ -56,7 +56,7 @@ internal class ImportExportService : IImportExportService
     {
         var path = ImportExportUtil.GetFileDir(ref fileName);
 
-        fileName = YitIdHelper.NextId() + fileName;
+        fileName = CommonUtils.GetSingleId() + fileName;
         var filePath = Path.Combine(path, fileName);
         using (FileStream fs = new(filePath, FileMode.Create))
         {

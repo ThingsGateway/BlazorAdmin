@@ -1,4 +1,4 @@
-// ------------------------------------------------------------------------
+﻿// ------------------------------------------------------------------------
 // 版权信息
 // 版权归百小僧及百签科技（广东）有限公司所有。
 // 所有权利保留。
@@ -168,6 +168,48 @@ public static class ObjectExtensions
     {
         using var stream = new MemoryStream(bytes);
         await stream.CopyToSaveAsync(path);
+    }
+    /// <summary>
+    /// 添加防抖操作
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="func"></param>
+    /// <param name="milliseconds"></param>
+    /// <returns></returns>
+    public static Action<T> Debounce<T>(this Action<T> func, int milliseconds = 300)
+    {
+        var last = 0;
+
+        return arg =>
+        {
+            var current = Interlocked.Increment(ref last);
+            Task.Delay(milliseconds).ContinueWith(task =>
+            {
+                if (current == last) func(arg);
+                task.Dispose();
+            });
+        };
+    }
+
+    /// <summary>
+    /// 添加防抖操作
+    /// </summary>
+    /// <param name="func"></param>
+    /// <param name="milliseconds"></param>
+    /// <returns></returns>
+    public static Action Debounce(this Action func, int milliseconds = 300)
+    {
+        var last = 0;
+
+        return () =>
+        {
+            var current = Interlocked.Increment(ref last);
+            Task.Delay(milliseconds).ContinueWith(task =>
+            {
+                if (current == last) func();
+                task.Dispose();
+            });
+        };
     }
 
     /// <summary>

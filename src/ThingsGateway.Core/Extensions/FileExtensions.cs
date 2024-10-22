@@ -27,7 +27,7 @@ public static class FileExtensions
     public static async Task<string> StorageLocal(this IBrowserFile file, string pPath = "imports")
     {
         string uploadFileFolder = App.WebHostEnvironment?.WebRootPath ?? "wwwroot"!;//赋值路径
-        var now = YitIdHelper.NextId();
+        var now = CommonUtils.GetSingleId();
         var filePath = Path.Combine(uploadFileFolder, pPath);
         if (!Directory.Exists(filePath))//如果不存在就创建文件夹
             Directory.CreateDirectory(filePath);

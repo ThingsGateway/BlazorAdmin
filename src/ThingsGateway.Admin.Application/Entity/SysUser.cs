@@ -133,6 +133,63 @@ public class SysUser : BaseEntity
     [AutoGenerateColumn(Ignore = true)]
     public long DefaultModule { get; set; }
 
+    /// <summary>
+    /// 机构id
+    ///</summary>
+    [SugarColumn(ColumnName = "OrgId", ColumnDescription = "机构id", IsNullable = false)]
+    public virtual long OrgId { get; set; }
+
+    /// <summary>
+    /// 职位id
+    ///</summary>
+    [SugarColumn(ColumnName = "PositionId", ColumnDescription = "职位id", IsNullable = false)]
+    public virtual long PositionId { get; set; }
+
+    /// <summary>
+    /// 职级
+    ///</summary>
+    [SugarColumn(ColumnName = "PositionLevel", ColumnDescription = "职级", Length = 200, IsNullable = true)]
+    public string PositionLevel { get; set; }
+
+    /// <summary>
+    /// 主管id
+    ///</summary>
+    [SugarColumn(ColumnName = "DirectorId", ColumnDescription = "主管id", IsNullable = true)]
+    public long? DirectorId { get; set; }
+
+    #region other
+    /// <summary>
+    /// 机构信息
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public string OrgName { get; set; }
+
+    /// <summary>
+    /// 机构信息全称
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public string OrgNames { get; set; }
+
+    /// <summary>
+    /// 职位信息
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public string PositionName { get; set; }
+
+    /// <summary>
+    /// 组织和机构ID列表,组织ID从上到下最后是职位
+    /// </summary>
+    [SugarColumn(IsIgnore = true, IsJson = true)]
+    public List<long> OrgAndPosIdList { get; set; } = new List<long>();
+
+    /// <summary>
+    /// 主管信息
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public UserSelectorOutput DirectorInfo { get; set; }
+
+    #endregion
+
     #region other
 
     /// <summary>
@@ -169,6 +226,28 @@ public class SysUser : BaseEntity
     [SugarColumn(IsIgnore = true)]
     [AutoGenerateColumn(Ignore = true)]
     public IEnumerable<DataScope> DataScopeList { get; set; } = Enumerable.Empty<DataScope>();
+
+
+    /// <summary>
+    /// 默认数据范围
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    [AutoGenerateColumn(Ignore = true)]
+    public DefaultDataScope DefaultDataScope { get; set; }
+
+
+
+    /// <summary>
+    /// 机构及以下机构ID集合
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public List<long> ScopeOrgChildList { get; set; }
+
+    /// <summary>
+    /// 公司Id
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public long? CompanyId { get; set; }
 
     /// <summary>
     /// 模块集合

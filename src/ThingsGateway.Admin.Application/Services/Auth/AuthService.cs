@@ -143,7 +143,7 @@ public class AuthService : IAuthService
         if (sysUser.Status == false)
             throw Oops.Bah(_localizer["UserDisable", sysUser.Account]);//账号已停用
 
-        var verificatId = YitIdHelper.NextId();
+        var verificatId = CommonUtils.GetSingleId();
         var expire = loginPolicy.VerificatExpireTime;
         string accessToken = string.Empty;
         string refreshToken = string.Empty;

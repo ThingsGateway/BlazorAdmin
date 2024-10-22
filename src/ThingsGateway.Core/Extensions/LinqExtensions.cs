@@ -43,4 +43,13 @@ public static class LinqExtensions
         }
         return thisValue;
     }
+
+    /// <inheritdoc/>
+    public static void AddRange<T>(this ICollection<T> @this, IEnumerable<T> values)
+    {
+        foreach (T value in values)
+        {
+            @this.Add(value);
+        }
+    }
 }

@@ -109,6 +109,28 @@
       "ExtJson": null
     },
     {
+      "Id": 100001004,
+      "Module": 2,
+      "ParentId": 100001,
+      "Title": "职位管理",
+      "NavLinkMatch": "All",
+      "Code": "System",
+      "Category": "MENU",
+      "Target": "_self",
+      "Href": "/admin/position",
+      "Icon": "fa-solid fa-user-gear",
+
+      "CreateTime": null,
+      "CreateUser": null,
+      "CreateUserId": 0,
+      "IsDelete": "0",
+      "UpdateTime": null,
+      "UpdateUser": null,
+      "UpdateUserId": null,
+      "SortCode": 1,
+      "ExtJson": null
+    },
+    {
       "Id": 100001002,
       "Module": 2,
       "ParentId": 100001,

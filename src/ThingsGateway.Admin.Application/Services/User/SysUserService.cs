@@ -24,6 +24,7 @@ internal class SysUserService : BaseService<SysUser>, ISysUserService
     private readonly ISysResourceService _sysResourceService;
     private readonly ISysRoleService _roleService;
     private readonly ISysDictService _configService;
+    private readonly ISysPositionService _sysPositionService;
     private readonly IVerificatInfoService _verificatInfoService;
 
     public SysUserService(

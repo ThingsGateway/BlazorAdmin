@@ -48,7 +48,7 @@ public partial class LoginConnectionHub : ComponentBase, IDisposable
         {
             try
             {
-                ClientId = YitIdHelper.NextId();
+                ClientId = CommonUtils.GetSingleId();
                 VerificatId = UserManager.VerificatId;
                 var clientId = ClientId.ToString();
                 LoginOut.Subscribe(clientId, async (message) =>
