@@ -1,0 +1,15 @@
+﻿@namespace ThingsGateway.Admin.Razor
+@using ThingsGateway.Admin.Application
+
+<div style="min-height:500px;">
+    <TreeView TItem="SysOrg" Items="Items" ShowIcon="true" OnTreeItemClick="OnTreeItemClick" ClickToggleNode ModelEqualityComparer="ModelEqualityComparer" />
+</div>
+
+@code {
+    RenderFragment<SysOrg> RenderTreeItem => item =>
+    @<div class="d-flex flex-fill">
+        <span class="flex-fill">@item.Name</span>
+        <span class="mx-3">@item.SortCode</span>
+        <span class="menu-type">@item.Category.ToDisplayName()</span>
+    </div>;
+}

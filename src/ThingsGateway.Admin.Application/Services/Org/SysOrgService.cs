@@ -12,7 +12,7 @@ using BootstrapBlazor.Components;
 
 using SqlSugar;
 
-using ThingsGateway.Extension;
+using ThingsGateway.Extension.Generic;
 using ThingsGateway.FriendlyException;
 
 namespace ThingsGateway.Admin.Application;
@@ -137,7 +137,7 @@ internal class SysOrgService : BaseService<SysOrg>, ISysOrgService
     {
         var key = $"{CacheConst.Cache_SysOrg}";//系统配置key
         var sysOrgs = App.CacheService.Get<List<SysOrg>>(key);
-        if (sysOrgs.Count == 0)
+        if (sysOrgs == null)
         {
             using var db = GetDB();
             sysOrgs = (await db.Queryable<SysOrg>().ToListAsync().ConfigureAwait(false));
@@ -215,6 +215,7 @@ internal class SysOrgService : BaseService<SysOrg>, ISysOrgService
             new List<SysOrg>(), new List<SysPosition>()
             );
     }
+
     /// <inheritdoc />
     public async Task<List<long>> GetOrgChildIds(long orgId, bool isContainOneself = true, List<SysOrg> sysOrgList = null)
     {
@@ -326,10 +327,7 @@ internal class SysOrgService : BaseService<SysOrg>, ISysOrgService
         }
     }
 
-    Task<QueryData<SysOrg>> ISysOrgService.PageAsync(QueryPageOptions option)
-    {
-        throw new NotImplementedException();
-    }
+
 
     /// <summary>
     /// 刷新缓存

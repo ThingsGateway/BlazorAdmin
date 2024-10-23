@@ -20,6 +20,7 @@
         <div class="col-12  col-md-6">
             <BootstrapInputGroup>
                 <i class="text-info d-flex  align-items-center me-2  @Model.Icon" style="flex: 0 0 auto;"></i>
+                <BootstrapLabel  Value=@Model.Description(a=>a.Icon)> </BootstrapLabel>
                 <BootstrapInput @bind-Value="Model.Icon"> </BootstrapInput>
                 <Button class="text-end" Icon="fa-solid fa-xmark" Color="Color.Secondary" OnClick="@(()=>Model.Icon=null)"></Button>
                 <Button class="text-end" Icon="fa-solid fa-bars" OnClick="OnToggleIconDialog"></Button>

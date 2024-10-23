@@ -48,6 +48,9 @@ public class Startup : AppStartup
         services.AddSingleton<ISysUserService, SysUserService>();
         services.AddSingleton<ISessionService, SessionService>();
 
+        services.AddSingleton<ISysPositionService, SysPositionService>();
+        services.AddSingleton<ISysOrgService, SysOrgService>();
+
         services.AddSingleton<LogJob>();
         services.AddSingleton<HardwareJob>();
         services.AddSingleton<IHardwareJob, HardwareJob>(serviceProvider => serviceProvider.GetService<HardwareJob>());

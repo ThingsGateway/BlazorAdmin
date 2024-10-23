@@ -1,0 +1,33 @@
+﻿@page "/admin/org"
+@attribute [Authorize]
+@attribute [RolePermission]
+@inherits ComponentDefault
+@using ThingsGateway.Admin.Application
+@namespace ThingsGateway.Admin.Razor
+
+        <div class="row" style="height: var(--table-height);padding: 2px 5px 10px 5px;">
+
+
+    <div class="col-12 col-sm-6">
+
+        <ParentOrgTree  ></ParentOrgTree>
+
+    </div>
+    <div class="col-12 col-sm-6">
+        <AdminTable @ref=table TItem="SysOrg" AutoGenerateColumns="true" ShowAdvancedSearch=false
+                AllowResizing="true" IsFixedHeader=true IsMultipleSelect=true SearchModel=SearchModel
+                ShowExtendButtons=true
+                ShowDefaultButtons=true ExtendButtonColumnWidth=500
+                OnQueryAsync="OnQueryAsync" IsPagination=true
+                OnSaveAsync="Save" OnDeleteAsync="Delete">
+
+            <EditTemplate Context="context">
+                <SysOrgEdit Model=context ></SysOrgEdit>
+            </EditTemplate>
+    </AdminTable>
+    </div>
+</div>
+
+@code {
+    AdminTable<SysOrg> table;
+}

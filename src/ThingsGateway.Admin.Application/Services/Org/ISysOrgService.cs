@@ -33,7 +33,5 @@ public interface ISysOrgService
     /// </summary>
     /// <param name="option">查询条件</param>
     Task<QueryData<SysOrg>> PageAsync(QueryPageOptions option);
-
-
-
+    Task<List<SysOrg>> GetAllAsync();
 }

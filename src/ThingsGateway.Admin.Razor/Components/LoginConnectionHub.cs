@@ -10,9 +10,7 @@
 
 
 using ThingsGateway.Admin.Application;
-using ThingsGateway.Extension;
-
-using Yitter.IdGenerator;
+using ThingsGateway.Extension.Generic;
 
 namespace ThingsGateway.Admin.Razor;
 

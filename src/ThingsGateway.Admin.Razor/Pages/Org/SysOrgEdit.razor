@@ -1,0 +1,29 @@
+﻿@namespace ThingsGateway.Admin.Razor
+@using ThingsGateway.Admin.Application
+<div class="row g-2 mx-1 form-inline">
+
+
+    <div class="col-12  col-md-12">
+        <ParentOrg @bind-Value="Model.ParentId" Lookup="@ParementMenus" DisplayText=@(Model.GetType().GetPropertyDisplayName(nameof(Model.ParentId)))></ParentOrg>
+    </div>
+
+    <div class="col-12  col-md-12">
+        <BootstrapInput @bind-Value="Model.Name"></BootstrapInput>
+    </div>
+    <div class="col-12  col-md-12">
+        <BootstrapInput @bind-Value="Model.Code"></BootstrapInput>
+    </div>
+
+    <div class="col-12  col-md-12">
+        <Select @bind-Value="Model.Category" IsPopover></Select>
+    </div>
+
+    <div class="col-12  col-md-12">
+        <BootstrapInput @bind-Value="Model.SortCode"></BootstrapInput>
+    </div>
+</div>
+
+
+
+
+
