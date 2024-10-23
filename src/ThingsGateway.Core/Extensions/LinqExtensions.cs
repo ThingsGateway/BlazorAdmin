@@ -8,7 +8,7 @@
 //  QQ群：605534569
 //------------------------------------------------------------------------------
 
-namespace ThingsGateway.Extension;
+namespace ThingsGateway.Extension.Generic;
 
 /// <inheritdoc/>
 [ThingsGateway.DependencyInjection.SuppressSniffer]
@@ -42,5 +42,14 @@ public static class LinqExtensions
             thisValue = thisValue.Where(predicate);
         }
         return thisValue;
+    }
+
+    /// <inheritdoc/>
+    public static void AddRange<T>(this ICollection<T> @this, IEnumerable<T> values)
+    {
+        foreach (T value in values)
+        {
+            @this.Add(value);
+        }
     }
 }
