@@ -1,0 +1,47 @@
+<Project>
+
+	<PropertyGroup>
+		<PluginVersion>10.0.2.16</PluginVersion>
+		<ProPluginVersion>10.0.2.16</ProPluginVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+
+		<AnalysisModeDesign>None</AnalysisModeDesign>
+		<AnalysisModeDocumentation>All</AnalysisModeDocumentation>
+		<AnalysisModeGlobalization>None</AnalysisModeGlobalization>
+		<AnalysisModeInteroperability>All</AnalysisModeInteroperability>
+		<AnalysisModeMaintainability>All</AnalysisModeMaintainability>
+		<AnalysisModeNaming>None</AnalysisModeNaming>
+		<AnalysisModePerformance>All</AnalysisModePerformance>
+		<AnalysisModeSingleFile>All</AnalysisModeSingleFile>
+		<AnalysisModeReliability>All</AnalysisModeReliability>
+		<AnalysisModeSecurity>All</AnalysisModeSecurity>
+		<AnalysisModeUsage>None</AnalysisModeUsage>
+		<AnalysisModeStyle>None</AnalysisModeStyle>
+
+		<NoWarn>CS8603;CS8618;CS1591;CS8625;CS8602;CS8604;CS8600;CS8601;CS8714;CS8619;CS8629;CS8765;CS8634;CS8621;CS8767;CS8633;CS8620;CS8610;CS8631;CS8605;CS8622;CS8613;NU5100;NU5104;NU1903;NU1902;CA1813;</NoWarn>
+		<TargetFrameworks>net8.0;</TargetFrameworks>
+		<LangVersion>13.0</LangVersion>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Diego</Authors>
+		<Company>Diego</Company>
+		<Product>Diego</Product>
+		<Copyright>版权所有 © 2023-present Diego</Copyright>
+		<RepositoryUrl>https://gitee.com/diego2098/BlazorAdmin</RepositoryUrl>
+		<RepositoryType>Gitee</RepositoryType>
+		<GenerateResxSourceIncludeDefaultValues>true</GenerateResxSourceIncludeDefaultValues>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(SolutionDir)Directory.Build.props" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<DebugSymbols>True</DebugSymbols>
+		<DebugType>Embedded</DebugType>
+		<EmbedAllSources>True</EmbedAllSources>
+	</PropertyGroup>
+
+</Project>

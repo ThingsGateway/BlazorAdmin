@@ -1,0 +1,51 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{0B748352-5D27-4F14-8A20-364034C72867}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		Version.props = Version.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Common", "BlazorAdmin.Common\BlazorAdmin.Common.csproj", "{FD919F26-976D-F9B5-B523-1A7BDF820116}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Application", "BlazorAdmin.Application\BlazorAdmin.Application.csproj", "{17840098-D3DF-233B-89C3-AB0331E16230}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Razor", "BlazorAdmin.Razor\BlazorAdmin.Razor.csproj", "{42D083A1-C19F-F8AA-8FFD-07ED76814EF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAdmin.Server", "BlazorAdmin.Server\BlazorAdmin.Server.csproj", "{1388F673-35BA-D013-8F95-A2FF519CE943}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD919F26-976D-F9B5-B523-1A7BDF820116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD919F26-976D-F9B5-B523-1A7BDF820116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD919F26-976D-F9B5-B523-1A7BDF820116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD919F26-976D-F9B5-B523-1A7BDF820116}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17840098-D3DF-233B-89C3-AB0331E16230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17840098-D3DF-233B-89C3-AB0331E16230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17840098-D3DF-233B-89C3-AB0331E16230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17840098-D3DF-233B-89C3-AB0331E16230}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42D083A1-C19F-F8AA-8FFD-07ED76814EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42D083A1-C19F-F8AA-8FFD-07ED76814EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42D083A1-C19F-F8AA-8FFD-07ED76814EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42D083A1-C19F-F8AA-8FFD-07ED76814EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1388F673-35BA-D013-8F95-A2FF519CE943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1388F673-35BA-D013-8F95-A2FF519CE943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1388F673-35BA-D013-8F95-A2FF519CE943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1388F673-35BA-D013-8F95-A2FF519CE943}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {199B1B96-4F56-4828-9531-813BA02DB282}
+		RESX_Rules = {"EnabledRules":[]}
+		RESX_NeutralResourcesLanguage = zh-Hans
+	EndGlobalSection
+EndGlobal

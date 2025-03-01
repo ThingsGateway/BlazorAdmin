@@ -1,0 +1,43 @@
+<Project>
+
+<!--Admin-->
+
+  <ItemGroup>
+    <PackageReference Include="BlazorAdmin.Razor" Version="$(Version)" />
+    <PackageReference Include="BlazorAdmin.Application" Version="$(Version)" GeneratePathProperty="true"/>
+  </ItemGroup>
+  
+  <Target Name="_ResolveCopyAdminLocalNuGetPkgXmls" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)'=='BlazorAdmin.Application' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+    </ItemGroup>
+  </Target>
+  
+  <Target Name="CopyAdminNugetPackages" AfterTargets="Build">
+    <ItemGroup>
+      <!-- setting up the variable for convenience -->
+      <AdminApplicationPackageFiles Include="$(PkgBlazorAdmin_Application)\Content\SeedData\Admin\*.*" />
+    </ItemGroup>
+    <PropertyGroup>
+      <AdminApplicationFolder>$(TargetDir)SeedData\Admin\</AdminApplicationFolder>
+    </PropertyGroup>
+    <RemoveDir Directories="$(AdminApplicationFolder)" />
+    <Copy SourceFiles="@(AdminApplicationPackageFiles)" DestinationFolder="$(AdminApplicationFolder)%(RecursiveDir)" />
+
+  </Target>
+  
+  <Target Name="AdminPostPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <!-- setting up the variable for convenience -->
+      <AdminFiles Include="bin\$(Configuration)\$(TargetFramework)\SeedData\**" />
+    </ItemGroup>
+    <PropertyGroup>
+    </PropertyGroup>
+    <Copy SourceFiles="@(AdminFiles)" DestinationFolder="$(PublishDir)SeedData\%(RecursiveDir)" />
+
+  </Target>
+
+  <!--Admin-->
+
+  
+</Project>

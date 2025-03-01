@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+	<Import Project="$(SolutionDir)Version.props" />
+	<Import Project="$(SolutionDir)PackNuget.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;</TargetFrameworks>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="BootstrapBlazor.FontAwesome" Version="9.0.2" />
+		<PackageReference Include="BootstrapBlazor" Version="9.4.2" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.9.7.18" />
+		<PackageReference Include="Furion.Pure" Version="4.9.7.18" />
+		<PackageReference Include="NewLife.Core" Version="11.4.2025.301" />
+		<PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Locales\*.json" />
+		<EmbeddedResource Include="Locales\*.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	
+
+
+</Project>
+
+

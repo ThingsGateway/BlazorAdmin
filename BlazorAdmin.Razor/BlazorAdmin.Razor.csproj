@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	
+	<Import Project="$(SolutionDir)Version.props" />
+	<Import Project="$(SolutionDir)PackNuget.props" />
+
+	<ItemGroup>
+    <ProjectReference Include="..\BlazorAdmin.Application\BlazorAdmin.Application.csproj" />
+    <PackageReference Include="BootstrapBlazor.Chart" Version="9.0.0" />
+    <PackageReference Include="BootstrapBlazor.TableExport" Version="9.2.1" />
+  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;</TargetFrameworks>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Remove="Locales\*.json" />
+		<EmbeddedResource Include="Locales\*.json">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</EmbeddedResource>
+	</ItemGroup>
+	
+
+</Project>
+
+
+

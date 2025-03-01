@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <Version>10.0.2.16</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(SolutionDir)Version.props" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
